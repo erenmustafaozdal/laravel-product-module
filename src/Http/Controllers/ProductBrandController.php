@@ -56,7 +56,7 @@ class ProductBrandController extends BaseNodeController
             'success'   => StoreSuccess::class,
             'fail'      => StoreFail::class
         ]);
-        return $this->storeModel(Product::class,'index');
+        return $this->storeModel(ProductBrand::class,'index');
     }
 
     /**
