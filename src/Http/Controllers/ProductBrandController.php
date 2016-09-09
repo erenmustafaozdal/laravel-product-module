@@ -7,7 +7,6 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\ProductBrand;
 use App\Product;
-use Laracasts\Flash\Flash;
 
 use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseNodeController;
 // events
@@ -26,35 +25,32 @@ class ProductBrandController extends BaseNodeController
     /**
      * Display a listing of the resource.
      *
-     * @param integer|null $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id = null)
+    public function index()
     {
-        return view(config('laravel-product-module.views.product.index'));
+        return view(config('laravel-product-module.views.product_brand.index'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @param \Illuminate\Http\Request $request
-     * @param integer|null $id
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id = null)
+    public function create(Request $request)
     {
         $operation = 'create';
-        return view(config('laravel-product-module.views.product.create'), compact('operation'));
+        return view(config('laravel-product-module.views.product_brand.create'), compact('operation'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  StoreRequest  $request
-     * @param integer|null $id
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, $id = null)
+    public function store(StoreRequest $request)
     {
         $this->setEvents([
             'success'   => StoreSuccess::class,
@@ -66,58 +62,54 @@ class ProductBrandController extends BaseNodeController
     /**
      * Display the specified resource.
      *
-     * @param integer|ProductBrand $firstId
-     * @param integer|null $secondId
+     * @param ProductBrand $product_brand
      * @return \Illuminate\Http\Response
      */
-    public function show($firstId, $secondId = null)
+    public function show($product_brand)
     {
-        return view(config('laravel-product-module.views.product.show'), compact('product'));
+        return view(config('laravel-product-module.views.product_brand.show'), compact('product_brand'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param integer|ProductBrand $firstId
-     * @param integer|null $secondId
+     * @param ProductBrand $product_brand
      * @return \Illuminate\Http\Response
      */
-    public function edit($firstId, $secondId = null)
+    public function edit($product_brand)
     {
         $operation = 'edit';
-        return view(config('laravel-product-module.views.product.edit'), compact('product','operation'));
+        return view(config('laravel-product-module.views.product_brand.edit'), compact('product_brand','operation'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param integer|ProductBrand $firstId
-     * @param integer|null $secondId
+     * @param ProductBrand $product_brand
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $firstId, $secondId = null)
+    public function update(UpdateRequest $request, $product_brand)
     {
         $this->setEvents([
             'success'   => UpdateSuccess::class,
             'fail'      => UpdateFail::class
         ]);
-        return $this->updateModel($product,'show', true);
+        return $this->updateModel($product_brand,'show', true);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param integer|ProductBrand $firstId
-     * @param integer|null $secondId
+     * @param ProductBrand $product_brand
      * @return \Illuminate\Http\Response
      */
-    public function destroy($firstId, $secondId = null)
+    public function destroy($product_brand)
     {
         $this->setEvents([
             'success'   => DestroySuccess::class,
             'fail'      => DestroyFail::class
         ]);
-        return $this->destroyModel($product,'index');
+        return $this->destroyModel($product_brand,'index');
     }
 }

@@ -173,7 +173,7 @@ Route::group([
     }
     // data table detail row
     if (config('laravel-product-module.routes.api.product_brand_detail')) {
-        Route::get('product-brand/id}/detail', [
+        Route::get('product-brand/{id}/detail', [
             'as'                => 'api.product_brand.detail',
             'uses'              => config('laravel-product-module.controller.product_brand_api').'@detail'
         ]);
