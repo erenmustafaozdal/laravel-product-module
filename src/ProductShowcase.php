@@ -2,11 +2,11 @@
 
 namespace ErenMustafaOzdal\LaravelProductModule;
 
-use Baum\Node;
+use Illuminate\Database\Eloquent\Model;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 use Carbon\Carbon;
 
-class ProductShowcase extends Node
+class ProductShowcase extends Model
 {
     use ModelDataTrait;
 
