@@ -6,7 +6,6 @@ namespace ErenMustafaOzdal\LaravelProductModule\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\ProductBrand;
-use App\Product;
 
 use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseNodeController;
 // events

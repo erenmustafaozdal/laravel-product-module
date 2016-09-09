@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\ProductShowcase;
 
-use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseNodeController;
+use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseController;
 // events
 use ErenMustafaOzdal\LaravelProductModule\Events\ProductShowcase\StoreSuccess;
 use ErenMustafaOzdal\LaravelProductModule\Events\ProductShowcase\StoreFail;
@@ -22,7 +22,7 @@ use ErenMustafaOzdal\LaravelProductModule\Http\Requests\ProductShowcase\ApiUpdat
 use LMBCollection;
 
 
-class ProductShowcaseApiController extends BaseNodeController
+class ProductShowcaseApiController extends BaseController
 {
     /**
      * default urls of the model
@@ -30,69 +30,31 @@ class ProductShowcaseApiController extends BaseNodeController
      * @var array
      */
     private $urls = [
-        'publish'       => ['route' => 'api.product_showcase.publish', 'id' => true],
-        'not_publish'   => ['route' => 'api.product_showcase.notPublish', 'id' => true],
         'edit_page'     => ['route' => 'admin.product_showcase.edit', 'id' => true]
-    ];
-
-    /**
-     * default realtion urls of the model
-     *
-     * @var array
-     */
-    private $relationUrls = [
-        'edit_page' => [
-            'route'     => 'admin.product_category.product_showcase.edit',
-            'id'        => 0,
-            'model'     => ''
-        ],
-        'show' => [
-            'route'     => 'admin.product_category.product_showcase.show',
-            'id'        => 0,
-            'model'     => ''
-        ]
     ];
 
     /**
      * Display a listing of the resource.
      *
      * @param Request  $request
-     * @param integer|null $id
      * @return Datatables
      */
-    public function index(Request $request, $id = null)
+    public function index(Request $request)
     {
-        // query
-        if (is_null($id)) {
-            $products = Product::with('category');
-        } else {
-            $products = ProductCategory::findOrFail($id)->products();
-        }
-        $products->select(['id', 'category_id', 'name', 'is_publish', 'created_at']);
+        $product_showcases = ProductShowcase::select(['id', 'name', 'created_at']);
 
         // if is filter action
         if ($request->has('action') && $request->input('action') === 'filter') {
-            $products->filter($request);
+            $product_showcases->filter($request);
         }
 
-        // urls
-        $addUrls = $this->urls;
-        if( ! is_null($id)) {
-            $this->relationUrls['edit_page']['id'] = $id;
-            $this->relationUrls['edit_page']['model'] = config('laravel-product-module.url.product');
-            $this->relationUrls['show']['id'] = $id;
-            $this->relationUrls['show']['model'] = config('laravel-product-module.url.product');
-            $addUrls = array_merge($addUrls, $this->relationUrls);
-        }
         $addColumns = [
-            'addUrls'           => $addUrls,
-            'status'            => function($model) { return $model->is_publish; }
+            'addUrls'           => $this->urls
         ];
         $editColumns = [
             'created_at'        => function($model) { return $model->created_at_table; }
         ];
-        $removeColumns = ['is_publish'];
-        return $this->getDatatables($products, $addColumns, $editColumns, $removeColumns);
+        return $this->getDatatables($product_showcases, $addColumns, $editColumns, []);
     }
 
     /**
@@ -104,17 +66,13 @@ class ProductShowcaseApiController extends BaseNodeController
      */
     public function detail($id, Request $request)
     {
-        $product = Product::with(['category', 'province', 'county', 'district', 'neighborhood', 'postalCode'])
-            ->where('id',$id)
-            ->select(['id','category_id','name','province_id','county_id','district_id','neighborhood_id','postal_code_id','address','land_phone','mobile_phone','url','created_at','updated_at']);
+        $product = ProductShowcase::where('id',$id)->select(['id','name','created_at','updated_at']);
 
         $editColumns = [
             'created_at'    => function($model) { return $model->created_at_table; },
-            'updated_at'    => function($model) { return $model->updated_at_table; },
-            'address'       => function($model) { return $model->full_address; },
+            'updated_at'    => function($model) { return $model->updated_at_table; }
         ];
-        $removeColumns = ['province_id','province','county_id','county','district_id','district','neighborhood_id','neighborhood','postal_code_id','postal_code'];
-        return $this->getDatatables($product, [], $editColumns, $removeColumns);
+        return $this->getDatatables($product, [], $editColumns, []);
     }
 
     /**
@@ -126,9 +84,7 @@ class ProductShowcaseApiController extends BaseNodeController
      */
     public function fastEdit($id, Request $request)
     {
-        return Product::with(['category','province','county','district','neighborhood','postalCode'])
-            ->where('id',$id)
-            ->first(['id','category_id','name','province_id','county_id','district_id','neighborhood_id','postal_code_id']);
+        return ProductShowcase::where('id',$id)->first(['id','name']);
     }
 
     /**
@@ -143,38 +99,38 @@ class ProductShowcaseApiController extends BaseNodeController
             'success'   => StoreSuccess::class,
             'fail'      => StoreFail::class
         ]);
-        return $this->storeModel(Product::class);
+        return $this->storeModel(ProductShowcase::class);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Product $product
+     * @param  ProductShowcase $product_showcase
      * @param  ApiUpdateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(ApiUpdateRequest $request, Product $product)
+    public function update(ApiUpdateRequest $request, ProductShowcase $product_showcase)
     {
         $this->setEvents([
             'success'   => UpdateSuccess::class,
             'fail'      => UpdateFail::class
         ]);
-        return $this->updateModel($product);
+        return $this->updateModel($product_showcase);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Product  $product
+     * @param  ProductShowcase  $product_showcase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy(ProductShowcase $product_showcase)
     {
         $this->setEvents([
             'success'   => DestroySuccess::class,
             'fail'      => DestroyFail::class
         ]);
-        return $this->destroyModel($product);
+        return $this->destroyModel($product_showcase);
     }
 
     /**
@@ -185,7 +141,7 @@ class ProductShowcaseApiController extends BaseNodeController
      */
     public function group(Request $request)
     {
-        if ( $this->groupAlias(Product::class) ) {
+        if ( $this->groupAlias(ProductShowcase::class) ) {
             return response()->json(['result' => 'success']);
         }
         return response()->json(['result' => 'error']);
@@ -199,16 +155,6 @@ class ProductShowcaseApiController extends BaseNodeController
      */
     public function models(Request $request)
     {
-        if($request->has('id')) {
-            $dealer_category = ProductShowcase::find($request->input('id'));
-            $models = $dealer_category->descendants()->where('name', 'like', "%{$request->input('query')}%");
-
-        } else {
-            $models = ProductShowcase::where('name', 'like', "%{$request->input('query')}%");
-        }
-
-        $models = $models->get(['id','parent_id','lft','rgt','depth','name'])
-            ->toHierarchy();
-        return LMBCollection::relationRender($models, 'children', '/', ['name']);
+        return ProductShowcase::where('name', 'like', "%{$request->input('query')}%")->get(['id','name']);
     }
 }

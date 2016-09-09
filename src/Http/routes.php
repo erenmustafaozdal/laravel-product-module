@@ -213,7 +213,7 @@ Route::group([
     }
     // data table detail row
     if (config('laravel-product-module.routes.api.product_showcase_detail')) {
-        Route::get('product-showcase/id}/detail', [
+        Route::get('product-showcase/{id}/detail', [
             'as'                => 'api.product_showcase.detail',
             'uses'              => config('laravel-product-module.controller.product_showcase_api').'@detail'
         ]);

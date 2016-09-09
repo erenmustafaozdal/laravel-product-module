@@ -23,7 +23,7 @@ return [
         'product'                   => 'products',                  // products url
         'product_category'          => 'product-categories',        // product categories url
         'product_brand'             => 'product-brands',            // product categories url
-        'product_showcase'          => 'product-product_showcases', // product categories url
+        'product_showcase'          => 'product-showcases',         // product categories url
         'admin_url_prefix'          => 'admin',                     // admin dashboard url prefix
         'middleware'                => ['auth', 'permission']       // product module middleware
     ],
