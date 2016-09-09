@@ -1,0 +1,26 @@
+{
+    "name": "erenmustafaozdal/laravel-product-module",
+    "description": "laravel 5.1 product management module package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Eren Mustafa ÖZDAL",
+            "email": "eren.060737@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ErenMustafaOzdal\\LaravelProductModule\\": "src/"
+        }
+    },
+    "minimum-stability": "beta",
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "~5",
+        "erenmustafaozdal/laravel-modules-base": "~0.1",
+        "baum/baum": "~1.1"
+    },
+    "require-dev": {
+
+    }
+}
