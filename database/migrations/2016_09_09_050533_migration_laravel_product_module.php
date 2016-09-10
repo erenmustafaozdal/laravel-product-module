@@ -48,6 +48,30 @@ class MigrationLaravelProductModule extends Migration
             });
         }
 
+        if ( ! Schema::hasTable('products')) {
+            Schema::create('products', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('brand_id')->unsigned();
+                $table->foreign('brand_id')->references('id')->on('product_brands')->onDelete('cascade');
+
+                $table->string('name');
+                $table->decimal('amount', 5, 2);
+                $table->string('code')->nullable();
+                $table->integer('photo_id')->unsigned()->index();
+                $table->text('short_description')->nullable();
+                $table->longText('description')->nullable();
+                $table->string('meta_title')->nullable();
+                $table->string('meta_description')->nullable();
+                $table->string('meta_keywords')->nullable();
+
+                $table->integer('read')->unsigned()->default(0);
+                $table->boolean('is_publish')->default(0);
+                $table->timestamps();
+
+                $table->engine = 'InnoDB';
+            });
+        }
+
         if ( ! Schema::hasTable('product_product_showcase')) {
             Schema::create('product_product_showcase', function (Blueprint $table) {
                 $table->integer('product_showcase_id')->unsigned()->index();
@@ -64,26 +88,13 @@ class MigrationLaravelProductModule extends Migration
             });
         }
 
-        if ( ! Schema::hasTable('products')) {
-            Schema::create('products', function (Blueprint $table) {
-                $table->increments('id');
-                $table->integer('category_id')->unsigned();
-                $table->foreign('category_id')->references('id')->on('product_categories')->onDelete('cascade');
-                $table->integer('brand_id')->unsigned();
-                $table->foreign('brand_id')->references('id')->on('product_brands')->onDelete('cascade');
+        if ( ! Schema::hasTable('product_product_category')) {
+            Schema::create('product_product_category', function (Blueprint $table) {
+                $table->integer('product_category_id')->unsigned()->index();
+                $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade');
 
-                $table->string('name');
-                $table->decimal('amount', 5, 2);
-                $table->string('code')->nullable();
-                $table->integer('photo_id')->unsigned()->index();
-                $table->text('short_description')->nullable();
-                $table->longText('description')->nullable();
-                $table->string('meta_title')->nullable();
-                $table->string('meta_description')->nullable();
-                $table->string('meta_keywords')->nullable();
-
-                $table->integer('read')->unsigned()->default(0);
-                $table->boolean('is_publish')->default(0);
+                $table->integer('product_id')->unsigned()->index();
+                $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
                 $table->timestamps();
 
                 $table->engine = 'InnoDB';
@@ -112,6 +123,7 @@ class MigrationLaravelProductModule extends Migration
     {
         Schema::drop('product_photos');
         Schema::drop('product_product_showcase');
+        Schema::drop('product_product_category');
         Schema::drop('products');
         Schema::drop('product_categories');
         Schema::drop('product_brands');

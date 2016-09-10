@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 use ErenMustafaOzdal\LaravelModulesBase\Repositories\FileRepository;
 use Illuminate\Support\Facades\Request;
-use App\ProductCategory;
 
 class Product extends Model
 {
@@ -119,13 +118,13 @@ class Product extends Model
     */
 
     /**
-     * Get the category of the product.
+     * Get the categories of the product.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo('App\ProductCategory');
+        return $this->belongsToMany('App\ProductCategory')->withTimestamps();
     }
 
     /**

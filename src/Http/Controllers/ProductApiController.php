@@ -46,8 +46,8 @@ class ProductApiController extends BaseController
      */
     public function index(Request $request)
     {
-        $products = Product::with(['category','brand','mainPhoto'])
-            ->select(['id','category_id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
+        $products = Product::with(['categories','brand','mainPhoto'])
+            ->select(['id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
 
         // if is filter action
         if ($request->has('action') && $request->input('action') === 'filter') {
@@ -61,8 +61,11 @@ class ProductApiController extends BaseController
             'created_at'        => function($model) { return $model->created_at_table; },
             'amount'            => function($model) { return $model->amount_turkish; },
             'code'              => function($model) { return $model->code_uc; },
-            'category'          => function($model) {
-                return $model->category->ancestorsAndSelf()->get()->toArray();
+            'categories'        => function($model) {
+                return $model->categories->map(function($item, $key)
+                {
+                    return $item->ancestorsAndSelf()->get();
+                })->toArray();
             }
         ];
         $removeColumns = ['category_id','brand_id','photo_id','is_publish'];
@@ -78,17 +81,20 @@ class ProductApiController extends BaseController
      */
     public function detail($id, Request $request)
     {
-        $product = Product::with(['category','brand','photos','showcases'])
+        $product = Product::with(['categories','brand','photos','showcases'])
             ->where('id',$id)
-            ->select(['id','category_id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
+            ->select(['id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
 
         $editColumns = [
             'created_at'    => function($model) { return $model->created_at_table; },
             'updated_at'    => function($model) { return $model->updated_at_table; },
             'amount'            => function($model) { return $model->amount_turkish; },
             'code'              => function($model) { return $model->code_uc; },
-            'category'          => function($model) {
-                return $model->category->ancestorsAndSelf()->get()->toArray();
+            'categories'        => function($model) {
+                return $model->categories->map(function($item, $key)
+                {
+                    return $item->ancestorsAndSelf()->get();
+                })->toArray();
             }
         ];
         $removeColumns = ['category_id','brand_id'];
