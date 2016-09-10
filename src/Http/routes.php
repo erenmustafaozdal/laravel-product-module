@@ -164,6 +164,13 @@ Route::group([
     'namespace'     => config('laravel-product-module.controller.product_brand_api_namespace')
 ], function()
 {
+    // api product brand
+    if (config('laravel-product-module.routes.api.product_brand_models')) {
+        Route::post('product-brand/models', [
+            'as'                => 'api.product_brand.models',
+            'uses'              => config('laravel-product-module.controller.product_brand_api').'@models'
+        ]);
+    }
     // api group action
     if (config('laravel-product-module.routes.api.product_brand_group')) {
         Route::post('product-brand/group-action', [
@@ -277,6 +284,13 @@ Route::group([
         Route::post('product/{' . config('laravel-product-module.url.product') . '}/not-publish', [
             'as'                => 'api.product.notPublish',
             'uses'              => config('laravel-product-module.controller.product_api').'@notPublish'
+        ]);
+    }
+    // api product photo remove
+    if (config('laravel-product-module.routes.api.product_removePhoto')) {
+        Route::post('product/{' . config('laravel-product-module.url.product') . '}/remove-photo', [
+            'as'                => 'api.product.removePhoto',
+            'uses'              => config('laravel-product-module.controller.product_api').'@removePhoto'
         ]);
     }
     if (config('laravel-product-module.routes.api.product')) {

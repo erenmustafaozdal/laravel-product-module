@@ -67,34 +67,36 @@ return [
     'routes' => [
         'admin' => [
             // resource
-            'product'                       => true,    // admin product resource route
-            'product_category'              => true,    // admin product category resource route
-            'product_brand'                 => true,    // admin product brand resource route
-            'product_showcase'              => true,    // admin product showcase resource route
+            'product'                   => true,    // admin product resource route
+            'product_category'          => true,    // admin product category resource route
+            'product_brand'             => true,    // admin product brand resource route
+            'product_showcase'          => true,    // admin product showcase resource route
             // others
-            'product_publish'                => true,   // admin product publish get route
-            'product_notPublish'             => true,   // admin product not publish get route
+            'product_publish'           => true,   // admin product publish get route
+            'product_notPublish'        => true,   // admin product not publish get route
         ],
         'api' => [
             // resource
-            'product'                        => true,   // api product resource route
-            'product_category'               => true,   // api product category resource route
-            'product_brand'                  => true,   // api product brand resource route
-            'product_showcase'               => true,   // api product showcase resource route
+            'product'                   => true,   // api product resource route
+            'product_category'          => true,   // api product category resource route
+            'product_brand'             => true,   // api product brand resource route
+            'product_showcase'          => true,   // api product showcase resource route
             // others
-            'product_group'                  => true,   // api product group post route
-            'product_detail'                 => true,   // api product detail get route
-            'product_fastEdit'               => true,   // api product fast edit post route
-            'product_publish'                => true,   // api product publish post route
-            'product_notPublish'             => true,   // api product not publish post route
-            'product_category_models'        => true,   // api product category model post route
-            'product_category_move'          => true,   // api product category move post route
-            'product_brand_group'            => true,   // api product brand group post route
-            'product_brand_detail'           => true,   // api product brand detail get route
-            'product_brand_fastEdit'         => true,   // api product brand fast edit post route
-            'product_showcase_group'         => true,   // api product showcase group post route
-            'product_showcase_detail'        => true,   // api product showcase detail get route
-            'product_showcase_fastEdit'      => true,   // api product showcase fast edit post route
+            'product_group'             => true,   // api product group post route
+            'product_detail'            => true,   // api product detail get route
+            'product_fastEdit'          => true,   // api product fast edit post route
+            'product_publish'           => true,   // api product publish post route
+            'product_notPublish'        => true,   // api product not publish post route
+            'product_removePhoto'       => true,   // api product destroy photo post route
+            'product_category_models'   => true,   // api product category model post route
+            'product_category_move'     => true,   // api product category move post route
+            'product_brand_models'      => true,   // api product brand model post route
+            'product_brand_group'       => true,   // api product brand group post route
+            'product_brand_detail'      => true,   // api product brand detail get route
+            'product_brand_fastEdit'    => true,   // api product brand fast edit post route
+            'product_showcase_group'    => true,   // api product showcase group post route
+            'product_showcase_detail'   => true,   // api product showcase detail get route
+            'product_showcase_fastEdit' => true,   // api product showcase fast edit post route
         ]
     ],
 

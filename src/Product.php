@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 use ErenMustafaOzdal\LaravelModulesBase\Repositories\FileRepository;
 use Illuminate\Support\Facades\Request;
+use App\ProductCategory;
 
 class Product extends Model
 {
@@ -73,7 +74,11 @@ class Product extends Model
         // filter category
         if ($request->has('category')) {
             $query->whereHas('category', function ($query) use($request) {
-                $query->where('name', 'like', "%{$request->get('category')}%");
+                $category = ProductCategory::where('name', 'like', "%{$request->get('category')}%")->get();
+                $ltf = $category->keyBy('lft')->keys()->min();
+                $rgt = $category->keyBy('rgt')->keys()->max();
+                $query->where('lft', '>=', $ltf)
+                    ->where('rgt', '<=', $rgt);
             });
         }
         // filter brand
@@ -84,10 +89,10 @@ class Product extends Model
         }
         // filter amount
         if ($request->has('amount_from')) {
-            $query->where('amount', '>=', Carbon::parse($request->get('amount')));
+            $query->where('amount', '>=', $request->get('amount_from'));
         }
         if ($request->has('amount_to')) {
-            $query->where('amount', '<=', Carbon::parse($request->get('amount_to')));
+            $query->where('amount', '<=', $request->get('amount_to'));
         }
         // filter status
         if ($request->has('status')) {
@@ -168,6 +173,48 @@ class Product extends Model
     | Model Set and Get Attributes
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * Set the amount attribute.
+     *
+     * @param number $amount
+     * @return string
+     */
+    public function setAmountAttribute($amount)
+    {
+        $this->attributes['amount'] = number_format($amount, 2, '.', ',');
+    }
+
+    /**
+     * Get the amount attribute.
+     *
+     * @param number $amount
+     * @return string
+     */
+    public function getAmountAttribute($amount)
+    {
+        return number_format($amount, 2, ',', '.');
+    }
+
+    /**
+     * Get the amount with turkish lira attribute.
+     *
+     * @return string
+     */
+    public function getAmountTurkishAttribute()
+    {
+        return $this->amount . ' ₺';
+    }
+
+    /**
+     * Get the code uppercase attribute.
+     *
+     * @return string
+     */
+    public function getCodeUcAttribute()
+    {
+        return strtoupper_tr($this->code);
+    }
 
 
 

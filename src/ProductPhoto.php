@@ -14,7 +14,7 @@ class ProductPhoto extends Node
      *
      * @var string
      */
-    protected $table = 'product_categories';
+    protected $table = 'product_photos';
 
     /**
      * The attributes that are mass assignable.

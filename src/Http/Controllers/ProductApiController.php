@@ -39,62 +39,33 @@ class ProductApiController extends BaseController
     ];
 
     /**
-     * default realtion urls of the model
-     *
-     * @var array
-     */
-    private $relationUrls = [
-        'edit_page' => [
-            'route'     => 'admin.product_category.product.edit',
-            'id'        => 0,
-            'model'     => ''
-        ],
-        'show' => [
-            'route'     => 'admin.product_category.product.show',
-            'id'        => 0,
-            'model'     => ''
-        ]
-    ];
-
-    /**
      * Display a listing of the resource.
      *
      * @param Request  $request
-     * @param integer|null $id
      * @return Datatables
      */
-    public function index(Request $request, $id = null)
+    public function index(Request $request)
     {
-        // query
-        if (is_null($id)) {
-            $products = Product::with('category');
-        } else {
-            $products = ProductCategory::findOrFail($id)->products();
-        }
-        $products->select(['id', 'category_id', 'name', 'is_publish', 'created_at']);
+        $products = Product::with(['category','brand','mainPhoto'])
+            ->select(['id','category_id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
 
         // if is filter action
         if ($request->has('action') && $request->input('action') === 'filter') {
             $products->filter($request);
         }
-
-        // urls
-        $addUrls = $this->urls;
-        if( ! is_null($id)) {
-            $this->relationUrls['edit_page']['id'] = $id;
-            $this->relationUrls['edit_page']['model'] = config('laravel-product-module.url.product');
-            $this->relationUrls['show']['id'] = $id;
-            $this->relationUrls['show']['model'] = config('laravel-product-module.url.product');
-            $addUrls = array_merge($addUrls, $this->relationUrls);
-        }
         $addColumns = [
-            'addUrls'           => $addUrls,
+            'addUrls'           => $this->urls,
             'status'            => function($model) { return $model->is_publish; }
         ];
         $editColumns = [
-            'created_at'        => function($model) { return $model->created_at_table; }
+            'created_at'        => function($model) { return $model->created_at_table; },
+            'amount'            => function($model) { return $model->amount_turkish; },
+            'code'              => function($model) { return $model->code_uc; },
+            'category'          => function($model) {
+                return $model->category->ancestorsAndSelf()->get()->toArray();
+            }
         ];
-        $removeColumns = ['is_publish'];
+        $removeColumns = ['category_id','brand_id','photo_id','is_publish'];
         return $this->getDatatables($products, $addColumns, $editColumns, $removeColumns);
     }
 
@@ -107,16 +78,20 @@ class ProductApiController extends BaseController
      */
     public function detail($id, Request $request)
     {
-        $product = Product::with(['category', 'province', 'county', 'district', 'neighborhood', 'postalCode'])
+        $product = Product::with(['category','brand','photos','showcases'])
             ->where('id',$id)
-            ->select(['id','category_id','name','province_id','county_id','district_id','neighborhood_id','postal_code_id','address','land_phone','mobile_phone','url','created_at','updated_at']);
+            ->select(['id','category_id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
 
         $editColumns = [
             'created_at'    => function($model) { return $model->created_at_table; },
             'updated_at'    => function($model) { return $model->updated_at_table; },
-            'address'       => function($model) { return $model->full_address; },
+            'amount'            => function($model) { return $model->amount_turkish; },
+            'code'              => function($model) { return $model->code_uc; },
+            'category'          => function($model) {
+                return $model->category->ancestorsAndSelf()->get()->toArray();
+            }
         ];
-        $removeColumns = ['province_id','province','county_id','county','district_id','district','neighborhood_id','neighborhood','postal_code_id','postal_code'];
+        $removeColumns = ['category_id','brand_id'];
         return $this->getDatatables($product, [], $editColumns, $removeColumns);
     }
 
@@ -212,6 +187,21 @@ class ProductApiController extends BaseController
             'success'   => NotPublishSuccess::class,
             'fail'      => NotPublishFail::class
         ]);
+    }
+
+    /**
+     * remove photo of the product
+     *
+     * @param Product $product
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function removePhoto(Product $product, Request $request)
+    {
+        if ($product->photos()->where('id',$request->id)->first()->delete()) {
+            return response()->json($this->returnData('success'));
+        }
+        return response()->json($this->returnData('error'));
     }
 
     /**
