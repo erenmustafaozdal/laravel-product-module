@@ -31,10 +31,10 @@ class UpdateRequest extends Request
         $mimes_photo = config('laravel-product-module.product.uploads.photo.mimes');
 
         $rules = [
-            'category_id'       => 'required|integer',
+            'category_id'       => 'required|array',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
-            'amount'            => 'required|numeric',
+            'amount'            => 'required',
         ];
 
         // photo elfinder mi

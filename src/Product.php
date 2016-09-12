@@ -25,7 +25,6 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'category_id',
         'brand_id',
         'name',
         'amount',
@@ -72,7 +71,7 @@ class Product extends Model
         }
         // filter category
         if ($request->has('category')) {
-            $query->whereHas('category', function ($query) use($request) {
+            $query->whereHas('categories', function ($query) use($request) {
                 $category = ProductCategory::where('name', 'like', "%{$request->get('category')}%")->get();
                 $ltf = $category->keyBy('lft')->keys()->min();
                 $rgt = $category->keyBy('rgt')->keys()->max();
@@ -181,7 +180,8 @@ class Product extends Model
      */
     public function setAmountAttribute($amount)
     {
-        $this->attributes['amount'] = number_format($amount, 2, '.', ',');
+        $amount = str_replace( ',', '.', str_replace(['_','.'], [''], $amount) );
+        $this->attributes['amount'] = number_format( $amount, 2, '.', ',');
     }
 
     /**
@@ -239,6 +239,12 @@ class Product extends Model
          */
         parent::saved(function($model)
         {
+            // category add
+            if (Request::has('category_id')) {
+                $model->categories()->sync( Request::get('category_id') );
+            }
+
+            // showcase add
             if (Request::has('showcase_id')) {
                 $ids = array_map(function($id)
                 {
@@ -249,7 +255,6 @@ class Product extends Model
                 }));
                 $model->showcases()->sync( $ids );
             }
-
         });
 
         /**

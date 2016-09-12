@@ -175,7 +175,7 @@ return [
     |       3. Height değeri null verilerek, width değerine göre ölçeklenebilir
     |--------------------------------------------------------------------------
     */
-    'description' => [
+    'product' => [
         'default_img_path'              => 'vendor/laravel-modules-core/assets/global/img/product',
         'uploads' => [
             // product photo options

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Product;
-use App\ProductCategory;
 
 use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseController;
 // events
@@ -49,7 +48,6 @@ class ProductApiController extends BaseController
         $products = Product::with(['categories','brand','mainPhoto'])
             ->select(['id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
 
-        // if is filter action
         if ($request->has('action') && $request->input('action') === 'filter') {
             $products->filter($request);
         }
@@ -110,9 +108,9 @@ class ProductApiController extends BaseController
      */
     public function fastEdit($id, Request $request)
     {
-        return Product::with(['category','province','county','district','neighborhood','postalCode'])
+        return Product::with(['categories','brand'])
             ->where('id',$id)
-            ->first(['id','category_id','name','province_id','county_id','district_id','neighborhood_id','postal_code_id']);
+            ->first(['id','brand_id','name','amount','code']);
     }
 
     /**

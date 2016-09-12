@@ -28,10 +28,10 @@ class ApiUpdateRequest extends Request
     public function rules()
     {
         return [
-            'category_id'       => 'required|integer',
+            'category_id'       => 'required|array',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
-            'amount'            => 'required|numeric',
+            'amount'            => 'required',
         ];
     }
 }
