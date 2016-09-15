@@ -143,7 +143,9 @@ class Product extends Model
      */
     public function showcases()
     {
-        return $this->belongsToMany('App\ProductShowcase');
+        return $this->belongsToMany('App\ProductShowcase')
+            ->withPivot('order')
+            ->withTimestamps();
     }
 
     /**

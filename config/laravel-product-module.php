@@ -213,4 +213,7 @@ return [
             ]
         ]
     ],
+    'product_showcase' => [
+        'type' => [ 'first', 'first_ten', 'first_hundred', 'random', 'last', 'clear' ]
+    ]
 ];
