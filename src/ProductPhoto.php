@@ -2,10 +2,10 @@
 
 namespace ErenMustafaOzdal\LaravelProductModule;
 
-use Baum\Node;
+use Illuminate\Database\Eloquent\Model;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 
-class ProductPhoto extends Node
+class ProductPhoto extends Model
 {
     use ModelDataTrait;
 

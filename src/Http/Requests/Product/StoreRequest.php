@@ -41,7 +41,7 @@ class StoreRequest extends Request
         if ($this->has('photo') && is_string($this->photo)) {
             $rules['photo'] = "elfinder_max:{$max_photo}|elfinder:{$mimes_photo}";
         } else {
-            $rules['photo'] = 'array|max:' . config('laravel-description-module.description.uploads.multiple_photo.max_file');
+            $rules['photo'] = 'array|max:' . config('laravel-product-module.product.uploads.multiple_photo.max_file');
             for($i = 0; $i < count($this->file('photo')); $i++) {
                 $rules['photo.' . $i] = "max:{$max_photo}|image|mimes:{$mimes_photo}";
             }

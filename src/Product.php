@@ -144,8 +144,7 @@ class Product extends Model
     public function showcases()
     {
         return $this->belongsToMany('App\ProductShowcase')
-            ->withPivot('order')
-            ->withTimestamps();
+            ->withPivot('order');
     }
 
     /**
@@ -223,6 +222,111 @@ class Product extends Model
 
     /*
     |--------------------------------------------------------------------------
+    | Model ShowCase Order Methods
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * get the first order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getFirstOrder($showcase, $showcase_id)
+    {
+        return 1;
+    }
+
+    /**
+     * get the first ten order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getFirstTenOrder($showcase, $showcase_id)
+    {
+        return rand(1,10);
+    }
+
+    /**
+     * get the first hundred order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getFirstHundredOrder($showcase, $showcase_id)
+    {
+        return rand(1,100);
+    }
+
+    /**
+     * get the random order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getRandomOrder($showcase, $showcase_id)
+    {
+        return rand(1,10000);
+    }
+
+    /**
+     * get the random order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getLastOrder($showcase, $showcase_id)
+    {
+        $lastShowcase = $this->showcases()
+            ->wherePivot('product_showcase_id', '=', $showcase_id)
+            ->orderBy('pivot_order','desc')
+            ->take(1)
+            ->first();
+        if ( ! $lastShowcase ) {
+            return 1;
+        }
+        return $lastShowcase->pivot->order + 1;
+    }
+
+    /**
+     * get the user specific order
+     *
+     * @param array $showcase
+     * @param integer $showcase_id
+     * @return integer
+     */
+    public function getClearOrder($showcase, $showcase_id)
+    {
+        return (int) $showcase['order'];
+    }
+
+    /**
+     * showcase order move up
+     *
+     * @param integer $showcase_id
+     * @param integer $order
+     * @return void
+     */
+    public function showcaseOrderMove($showcase_id, $order)
+    {
+        $this->showcases()
+            ->wherePivot('product_showcase_id', '=', $showcase_id)
+            ->wherePivot('order', '>=', $order)
+            ->increment('order');
+    }
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Model Events
     |--------------------------------------------------------------------------
     */
@@ -248,14 +352,19 @@ class Product extends Model
 
             // showcase add
             if (Request::has('showcase_id')) {
-                $ids = array_map(function($id)
+                $showcases = collect(Request::get('showcase_id'))->filter(function($showcase)
                 {
-                    return [ $id => ['order' => Request::get('order_' . $id)] ];
-                }, array_filter(Request::get('showcase_id'), function($id)
+                    return $showcase['type'];
+                })->map(function($showcase, $id) use($model)
                 {
-                    return $id != 0;
-                }));
-                $model->showcases()->sync( $ids );
+                    $method = camel_case( "get_{$showcase['type']}_order" );
+                    $order = $model->$method($showcase, $id);
+                    if ( $showcase['type'] !== 'last' ) {
+                        $model->showcaseOrderMove($id,$order);
+                    }
+                    return ['order' => $order];
+                })->all();
+                $model->showcases()->sync( $showcases );
             }
         });
 

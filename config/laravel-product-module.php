@@ -88,6 +88,7 @@ return [
             'product_publish'           => true,   // api product publish post route
             'product_notPublish'        => true,   // api product not publish post route
             'product_removePhoto'       => true,   // api product destroy photo post route
+            'product_setMainPhoto'      => true,   // api product set main photo post route
             'product_category_models'   => true,   // api product category model post route
             'product_category_move'     => true,   // api product category move post route
             'product_brand_models'      => true,   // api product brand model post route
@@ -186,12 +187,12 @@ return [
                 'column'                => 'mainPhoto.photo',
                 'path'                  => 'uploads/product',
                 'max_size'              => '5120',
-                'aspect_ratio'          => 16/9,
+                'aspect_ratio'          => 3/4,
                 'mimes'                 => 'jpeg,jpg,jpe,png',
                 'thumbnails' => [
-                    'small'             => [ 'width' => 35, 'height' => null],
-                    'normal'            => [ 'width' => 300, 'height' => null],
-                    'big'               => [ 'width' => 800, 'height' => null],
+                    'small'             => [ 'width' => 75, 'height' => 100],
+                    'normal'            => [ 'width' => 450, 'height' => 600],
+                    'big'               => [ 'width' => 1125, 'height' => 1500],
                 ]
             ],
             // product multiple photo options
@@ -203,12 +204,12 @@ return [
                 'path'                  => 'uploads/product',
                 'max_size'              => '5120',
                 'max_file'              => 5,
-                'aspect_ratio'          => 16/9,
+                'aspect_ratio'          => 3/4,
                 'mimes'                 => 'jpeg,jpg,jpe,png',
                 'thumbnails' => [
-                    'small'             => [ 'width' => 35, 'height' => null],
-                    'normal'            => [ 'width' => 300, 'height' => null],
-                    'big'               => [ 'width' => 800, 'height' => null],
+                    'small'             => [ 'width' => 75, 'height' => 100],
+                    'normal'            => [ 'width' => 450, 'height' => 600],
+                    'big'               => [ 'width' => 1125, 'height' => 1500],
                 ]
             ]
         ]

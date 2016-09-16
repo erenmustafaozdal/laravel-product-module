@@ -59,14 +59,20 @@ class ProductApiController extends BaseController
             'created_at'        => function($model) { return $model->created_at_table; },
             'amount'            => function($model) { return $model->amount_turkish; },
             'code'              => function($model) { return $model->code_uc; },
-            'categories'        => function($model) {
+            'main_photo'        => function($model)
+            {
+                $photoKey = array_keys(config('laravel-product-module.product.uploads.photo.thumbnails'));
+                return !is_null($model->mainPhoto) ? $model->mainPhoto->getPhoto([], $photoKey[1], true, 'product','product_id') : null;
+            },
+            'categories'        => function($model)
+            {
                 return $model->categories->map(function($item, $key)
                 {
                     return $item->ancestorsAndSelf()->get();
                 })->toArray();
             }
         ];
-        $removeColumns = ['category_id','brand_id','photo_id','is_publish'];
+        $removeColumns = ['category_id','brand_id','photo_id','is_publish','mainPhoto'];
         return $this->getDatatables($products, $addColumns, $editColumns, $removeColumns);
     }
 
@@ -86,8 +92,19 @@ class ProductApiController extends BaseController
         $editColumns = [
             'created_at'    => function($model) { return $model->created_at_table; },
             'updated_at'    => function($model) { return $model->updated_at_table; },
-            'amount'            => function($model) { return $model->amount_turkish; },
-            'code'              => function($model) { return $model->code_uc; },
+            'amount'        => function($model) { return $model->amount_turkish; },
+            'code'          => function($model) { return $model->code_uc; },
+            'photos'        => function($model)
+            {
+                // eğer çoklu fotoğraf ise
+                return $model->photos->map(function($item,$key)
+                {
+                    return [
+                        'photo'     => $item->getPhoto([], 'normal', true, 'product','product_id'),
+                        'id'        => $item->id
+                    ];
+                })->toArray();
+            },
             'categories'        => function($model) {
                 return $model->categories->map(function($item, $key)
                 {
@@ -203,6 +220,22 @@ class ProductApiController extends BaseController
     public function removePhoto(Product $product, Request $request)
     {
         if ($product->photos()->where('id',$request->id)->first()->delete()) {
+            return response()->json($this->returnData('success'));
+        }
+        return response()->json($this->returnData('error'));
+    }
+
+    /**
+     * set main photo of the product
+     *
+     * @param Product $product
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function setMainPhoto(Product $product, Request $request)
+    {
+        $product->photo_id = $request->id;
+        if ($product->save()) {
             return response()->json($this->returnData('success'));
         }
         return response()->json($this->returnData('error'));

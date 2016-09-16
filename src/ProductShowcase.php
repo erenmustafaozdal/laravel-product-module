@@ -25,6 +25,7 @@ class ProductShowcase extends Model
     protected $fillable = [
         'name',
     ];
+    public $timestamps = false;
 
 
 
@@ -78,7 +79,8 @@ class ProductShowcase extends Model
      */
     public function products()
     {
-        return $this->belongsToMany('App\Product')->withTimestamps();
+        return $this->belongsToMany('App\Product')
+            ->withPivot('order');
     }
 
 

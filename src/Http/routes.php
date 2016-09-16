@@ -293,6 +293,13 @@ Route::group([
             'uses'              => config('laravel-product-module.controller.product_api').'@removePhoto'
         ]);
     }
+    // api product photo set main photo
+    if (config('laravel-product-module.routes.api.product_setMainPhoto')) {
+        Route::post('product/{' . config('laravel-product-module.url.product') . '}/set-main-photo', [
+            'as'                => 'api.product.setMainPhoto',
+            'uses'              => config('laravel-product-module.controller.product_api').'@setMainPhoto'
+        ]);
+    }
     if (config('laravel-product-module.routes.api.product')) {
         Route::resource(config('laravel-product-module.url.product'), config('laravel-product-module.controller.product_api'), [
             'names' => [
