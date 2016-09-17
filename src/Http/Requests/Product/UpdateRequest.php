@@ -29,13 +29,16 @@ class UpdateRequest extends Request
     {
         $max_photo = config('laravel-product-module.product.uploads.photo.max_size');
         $mimes_photo = config('laravel-product-module.product.uploads.photo.mimes');
+        $rules = [];
 
-        $rules = [
-            'category_id'       => 'required|array',
-            'brand_id'          => 'required|integer',
-            'name'              => 'required|max:255',
-            'amount'            => 'required',
-        ];
+        if( $this->form === 'general' ) {
+            $rules = [
+                'category_id'       => 'required|array',
+                'brand_id'          => 'required|integer',
+                'name'              => 'required|max:255',
+                'amount'            => 'required',
+            ];
+        }
 
         // photo elfinder mi
         if ($this->has('photo') && is_string($this->photo)) {

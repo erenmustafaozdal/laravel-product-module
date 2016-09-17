@@ -125,8 +125,7 @@ class ProductCategoryApiController extends BaseNodeController
             $models = ProductCategory::where('name', 'like', "%{$request->input('query')}%");
         }
 
-        $models = $models->get(['id','parent_id','lft','rgt','depth','name'])
-            ->toHierarchy();
-        return LMBCollection::relationRender($models, 'children', '/', ['name']);
+        $models = $models->get(['id','parent_id','lft','rgt','depth','name']);
+        return LMBCollection::renderAncestorsAndSelf($models, '/', ['name_uc_first']);
     }
 }
