@@ -160,7 +160,7 @@ class Product extends Model
      */
     public function mainPhoto()
     {
-        return $this->hasOne('App\ProductPhoto','product_id');
+        return $this->belongsTo('App\ProductPhoto','photo_id');
     }
 
 
