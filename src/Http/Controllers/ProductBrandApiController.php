@@ -52,6 +52,7 @@ class ProductBrandApiController extends BaseController
             'addUrls'           => $this->urls
         ];
         $editColumns = [
+            'name'              => function($model) { return $model->name_uc_first; },
             'created_at'        => function($model) { return $model->created_at_table; }
         ];
         return $this->getDatatables($product_brands, $addColumns, $editColumns, []);
@@ -69,6 +70,7 @@ class ProductBrandApiController extends BaseController
         $product = ProductBrand::where('id',$id)->select(['id','name','created_at','updated_at']);
 
         $editColumns = [
+            'name'          => function($model) { return $model->name_uc_first; },
             'created_at'    => function($model) { return $model->created_at_table; },
             'updated_at'    => function($model) { return $model->updated_at_table; }
         ];
@@ -155,6 +157,12 @@ class ProductBrandApiController extends BaseController
      */
     public function models(Request $request)
     {
-        return ProductBrand::where('name', 'like', "%{$request->input('query')}%")->get(['id','name']);
+        return ProductBrand::where('name', 'like', "%{$request->input('query')}%")
+            ->get(['id','name'])
+            ->map(function($item,$key)
+            {
+                $item->name = $item->name_uc_first;
+                return $item;
+            });
     }
 }
