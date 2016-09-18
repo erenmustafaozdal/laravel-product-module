@@ -352,11 +352,14 @@ class Product extends Model
 
             // showcase add
             if (Request::has('showcase_id')) {
-                $showcases = collect(Request::get('showcase_id'))->filter(function($showcase)
+                $ids = collect(Request::get('showcase_id'))->filter(function($showcase)
                 {
-                    return $showcase['type'];
+                    return (isset($showcase['type']) && $showcase['type']) || (isset($showcase['order']) && $showcase['order']);
                 })->map(function($showcase, $id) use($model)
                 {
+                    if ( ! $showcase['type'] ) {
+                        return $id;
+                    }
                     $method = camel_case( "get_{$showcase['type']}_order" );
                     $order = $model->$method($showcase, $id);
                     if ( $showcase['type'] !== 'last' ) {
@@ -364,7 +367,7 @@ class Product extends Model
                     }
                     return ['order' => $order];
                 })->all();
-                $model->showcases()->sync( $showcases );
+                $model->showcases()->sync( $ids );
             }
         });
 
