@@ -106,20 +106,29 @@ class LaravelProductModuleServiceProvider extends ServiceProvider
         $config['routes'] = $default['routes'];
 
 
-        // model photo uploads
-        $config['product']['uploads']['photo']['relation'] = $default['product']['uploads']['photo']['relation'];
-        $config['product']['uploads']['photo']['relation_model'] = $default['product']['uploads']['photo']['relation_model'];
-        $config['product']['uploads']['photo']['type'] = $default['product']['uploads']['photo']['type'];
-        $config['product']['uploads']['photo']['column'] = $default['product']['uploads']['photo']['column'];
-        // model multiple photo uploads
-        $config['product']['uploads']['multiple_photo']['relation'] = $default['product']['uploads']['multiple_photo']['relation'];
-        $config['product']['uploads']['multiple_photo']['relation_model'] = $default['product']['uploads']['multiple_photo']['relation_model'];
-        $config['product']['uploads']['multiple_photo']['type'] = $default['product']['uploads']['multiple_photo']['type'];
-        $config['product']['uploads']['multiple_photo']['column'] = $default['product']['uploads']['multiple_photo']['column'];
+        $path = unsetReturn($config['product']['uploads'],'path');
+        $default['product']['uploads']['photo']['path'] = $path;
+        $default['product']['uploads']['multiple_photo']['path'] = $path;
+        $max_size = unsetReturn($config['product']['uploads'],'max_size');
+        $default['product']['uploads']['photo']['max_size'] = $max_size;
+        $default['product']['uploads']['multiple_photo']['max_size'] = $max_size;
+        $default['product']['uploads']['multiple_photo']['max_file'] = unsetReturn($config['product']['uploads'],'upload_max_file');
+        $aspect_ratio = unsetReturn($config['product']['uploads'],'photo_aspect_ratio');
+        $default['product']['uploads']['photo']['aspect_ratio'] = $aspect_ratio;
+        $default['product']['uploads']['multiple_photo']['aspect_ratio'] = $aspect_ratio;
+        $mimes = unsetReturn($config['product']['uploads'],'photo_mimes');
+        $default['product']['uploads']['photo']['mimes'] = $mimes;
+        $default['product']['uploads']['multiple_photo']['mimes'] = $mimes;
+        $thumbnails = unsetReturn($config['product']['uploads'],'photo_thumbnails');
+        $default['product']['uploads']['photo']['thumbnails'] = $thumbnails;
+        $default['product']['uploads']['multiple_photo']['thumbnails'] = $thumbnails;
+        $config['product']['uploads']['photo'] = $default['product']['uploads']['photo'];
+        $config['product']['uploads']['multiple_photo'] = $default['product']['uploads']['multiple_photo'];
 
 
         $config['product_showcase'] = $default['product_showcase'];
 
         $this->app['config']->set('laravel-product-module', $config);
+        dd($this->app['config']->get('laravel-product-module', []));
     }
 }

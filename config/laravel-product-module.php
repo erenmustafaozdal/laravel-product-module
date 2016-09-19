@@ -153,30 +153,15 @@ return [
     'product' => [
         'default_img_path'              => 'vendor/laravel-modules-core/assets/global/img/product',
         'uploads' => [
-            // product photo options
-            'photo' => [
-                'path'                  => 'uploads/product',
-                'max_size'              => '5120',
-                'aspect_ratio'          => 3/4,
-                'mimes'                 => 'jpeg,jpg,jpe,png',
-                'thumbnails' => [
-                    'small'             => [ 'width' => 75, 'height' => 100],
-                    'normal'            => [ 'width' => 450, 'height' => 600],
-                    'big'               => [ 'width' => 1125, 'height' => 1500],
-                ]
-            ],
-            // product multiple photo options
-            'multiple_photo' => [
-                'path'                  => 'uploads/product',
-                'max_size'              => '5120',
-                'max_file'              => 5,
-                'aspect_ratio'          => 3/4,
-                'mimes'                 => 'jpeg,jpg,jpe,png',
-                'thumbnails' => [
-                    'small'             => [ 'width' => 75, 'height' => 100],
-                    'normal'            => [ 'width' => 450, 'height' => 600],
-                    'big'               => [ 'width' => 1125, 'height' => 1500],
-                ]
+            'path'                  => 'uploads/product',
+            'max_size'              => '5120',
+            'upload_max_file'       => 5,
+            'photo_aspect_ratio'    => 16/9,
+            'photo_mimes'           => 'jpeg,jpg,jpe,png',
+            'photo_thumbnails' => [
+                'small'             => [ 'width' => 35, 'height' => null],
+                'normal'            => [ 'width' => 300, 'height' => null],
+                'big'               => [ 'width' => 800, 'height' => null],
             ]
         ]
     ]
