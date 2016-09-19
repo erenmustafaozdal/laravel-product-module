@@ -121,6 +121,5 @@ class LaravelProductModuleServiceProvider extends ServiceProvider
         $config['product_showcase'] = $default['product_showcase'];
 
         $this->app['config']->set('laravel-product-module', $config);
-        dd($this->app['config']->get('laravel-product-module', []));
     }
 }
