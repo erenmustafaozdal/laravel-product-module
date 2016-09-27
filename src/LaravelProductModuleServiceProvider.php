@@ -35,6 +35,7 @@ class LaravelProductModuleServiceProvider extends ServiceProvider
     {
         $this->app->register('ErenMustafaOzdal\LaravelModulesBase\LaravelModulesBaseServiceProvider');
         $this->app->register('Baum\Providers\BaumServiceProvider');
+        $this->app->register('Mews\Purifier\PurifierServiceProvider');
 
         $this->mergeConfigFrom(
             __DIR__.'/../config/laravel-product-module.php', 'laravel-product-module'

@@ -216,6 +216,18 @@ class Product extends Model
         return strtoupper_tr($this->code);
     }
 
+    /**
+     * Get the description attribute.
+     * clean iframe for xss atack
+     *
+     * @param string $description
+     * @return string
+     */
+    public function getDescriptionAttribute($description)
+    {
+        return clean($description, 'iframe');
+    }
+
 
 
 
