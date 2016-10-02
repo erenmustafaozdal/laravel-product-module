@@ -55,7 +55,7 @@ class MigrationLaravelProductModule extends Migration
                 $table->foreign('brand_id')->references('id')->on('product_brands')->onDelete('cascade');
 
                 $table->string('name');
-                $table->decimal('amount', 5, 2);
+                $table->decimal('amount', 5, 2)->nullable();
                 $table->string('code')->nullable();
                 $table->integer('photo_id')->unsigned()->index();
                 $table->text('short_description')->nullable();
