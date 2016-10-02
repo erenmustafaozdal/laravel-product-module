@@ -71,12 +71,8 @@ class Product extends Model
         }
         // filter category
         if ($request->has('category')) {
-            $query->whereHas('categories', function ($query) use($request) {
-                $category = ProductCategory::where('name', 'like', "%{$request->get('category')}%")->get();
-                $ltf = $category->keyBy('lft')->keys()->min();
-                $rgt = $category->keyBy('rgt')->keys()->max();
-                $query->where('lft', '>=', $ltf)
-                    ->where('rgt', '<=', $rgt);
+            $query->whereHas('category', function ($query) use($request) {
+                $query->where('name', 'like', "%{$request->get('category')}%");
             });
         }
         // filter brand
@@ -117,13 +113,11 @@ class Product extends Model
     */
 
     /**
-     * Get the categories of the product.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * Get the category of the product.
      */
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany('App\ProductCategory');
+        return $this->belongsTo('App\ProductCategory');
     }
 
     /**
@@ -370,11 +364,6 @@ class Product extends Model
          */
         parent::saved(function($model)
         {
-            // category add
-            if (Request::has('category_id')) {
-                $model->categories()->sync( Request::get('category_id') );
-            }
-
             // showcase add
             if (Request::has('showcase_id')) {
                 $ids = collect(Request::get('showcase_id'))->filter(function($showcase)

@@ -34,6 +34,7 @@ return [
             'product_setMainPhoto'      => true,   // api product set main photo post route
             'product_category_models'   => true,   // api product category model post route
             'product_category_move'     => true,   // api product category move post route
+            'product_category_detail'   => true,   // api product category detail post route
             'product_brand_models'      => true,   // api product brand model post route
             'product_brand_group'       => true,   // api product brand group post route
             'product_brand_detail'      => true,   // api product brand detail get route

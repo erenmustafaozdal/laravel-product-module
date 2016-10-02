@@ -31,7 +31,7 @@ class StoreRequest extends Request
         $mimes_photo = config('laravel-product-module.product.uploads.photo.mimes');
 
         $rules = [
-            'category_id'       => 'required|array',
+            'category_id'       => 'required',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
             'group-description' => 'array',

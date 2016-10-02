@@ -33,7 +33,7 @@ class UpdateRequest extends Request
 
         if( $this->form === 'general' ) {
             $rules = [
-                'category_id'       => 'required|array',
+                'category_id'       => 'required',
                 'brand_id'          => 'required|integer',
                 'name'              => 'required|max:255',
                 'group-description' => 'array',

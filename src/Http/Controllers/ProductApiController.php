@@ -45,7 +45,7 @@ class ProductApiController extends BaseController
      */
     public function index(Request $request)
     {
-        $products = Product::with(['categories','brand','mainPhoto'])
+        $products = Product::with(['category','brand','mainPhoto'])
             ->select(['id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
 
         if ($request->has('action') && $request->input('action') === 'filter') {
@@ -66,16 +66,13 @@ class ProductApiController extends BaseController
                 $photoKey = array_keys(config('laravel-product-module.product.uploads.photo.thumbnails'));
                 return !is_null($model->mainPhoto) ? $model->mainPhoto->getPhoto([], $photoKey[1], true, 'product','product_id') : null;
             },
-            'categories'        => function($model)
+            'category'        => function($model)
             {
-                return $model->categories->map(function($item, $key)
+                return $model->ancestorsAndSelf()->get()->map(function($item,$key)
                 {
-                    return $item->ancestorsAndSelf()->get()->map(function($item,$key)
-                    {
-                        $item->name = $item->name_uc_first;
-                        return $item;
-                    });
-                })->toArray();
+                    $item->name = $item->name_uc_first;
+                    return $item;
+                });
             }
         ];
         $removeColumns = ['category_id','brand_id','photo_id','is_publish','mainPhoto'];
@@ -91,7 +88,7 @@ class ProductApiController extends BaseController
      */
     public function detail($id, Request $request)
     {
-        $product = Product::with(['categories','brand','photos','showcases'])
+        $product = Product::with(['category','brand','photos','showcases'])
             ->where('id',$id)
             ->select(['id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
 
@@ -113,15 +110,12 @@ class ProductApiController extends BaseController
                     ];
                 })->toArray();
             },
-            'categories'        => function($model) {
-                return $model->categories->map(function($item, $key)
+            'category'        => function($model) {
+                return $model->ancestorsAndSelf()->get()->map(function($item,$key)
                 {
-                    return $item->ancestorsAndSelf()->get()->map(function($item,$key)
-                    {
-                        $item->name = $item->name_uc_first;
-                        return $item;
-                    });
-                })->toArray();
+                    $item->name = $item->name_uc_first;
+                    return $item;
+                });
             }
         ];
         $removeColumns = ['category_id','brand_id'];
@@ -137,7 +131,7 @@ class ProductApiController extends BaseController
      */
     public function fastEdit($id, Request $request)
     {
-        return Product::with(['categories','brand'])
+        return Product::with(['category','brand'])
             ->where('id',$id)
             ->first(['id','brand_id','name','amount','code']);
     }

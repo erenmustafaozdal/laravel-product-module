@@ -40,6 +40,20 @@ class ProductCategoryApiController extends BaseNodeController
     }
 
     /**
+     * get detail
+     *
+     * @param integer $id
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function detail($id, Request $request)
+    {
+        return ProductCategory::where('id', $id)
+            ->select('crop_type')
+            ->first();
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  ApiStoreRequest  $request
