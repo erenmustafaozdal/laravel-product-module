@@ -123,7 +123,7 @@ class Product extends Model
      */
     public function categories()
     {
-        return $this->belongsToMany('App\ProductCategory')->withTimestamps();
+        return $this->belongsToMany('App\ProductCategory');
     }
 
     /**
@@ -163,6 +163,14 @@ class Product extends Model
         return $this->belongsTo('App\ProductPhoto','photo_id');
     }
 
+    /**
+     * Get the product descriptions.
+     */
+    public function descriptions()
+    {
+        return $this->hasMany('App\ProductDescription','product_id');
+    }
+
 
 
 
@@ -181,6 +189,9 @@ class Product extends Model
      */
     public function setAmountAttribute($amount)
     {
+        if ($amount === '') {
+            return;
+        }
         $amount = str_replace( ',', '.', str_replace(['_','.'], [''], $amount) );
         $this->attributes['amount'] = number_format( $amount, 2, '.', ',');
     }
@@ -193,6 +204,7 @@ class Product extends Model
      */
     public function getAmountAttribute($amount)
     {
+        if (is_null($amount)) return $amount;
         return number_format($amount, 2, ',', '.');
     }
 
@@ -203,6 +215,7 @@ class Product extends Model
      */
     public function getAmountTurkishAttribute()
     {
+        if (is_null($this->amount)) return $this->amount;
         return $this->amount . ' ₺';
     }
 

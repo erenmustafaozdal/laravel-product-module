@@ -58,13 +58,28 @@ class MigrationLaravelProductModule extends Migration
                 $table->decimal('amount', 5, 2)->nullable();
                 $table->string('code')->nullable();
                 $table->integer('photo_id')->unsigned()->index();
-                $table->text('short_description')->nullable();
+                $table->longText('short_description')->nullable();
                 $table->longText('description')->nullable();
                 $table->string('meta_title')->nullable();
                 $table->string('meta_description')->nullable();
                 $table->string('meta_keywords')->nullable();
 
                 $table->integer('read')->unsigned()->default(0);
+                $table->boolean('is_publish')->default(0);
+                $table->timestamps();
+
+                $table->engine = 'InnoDB';
+            });
+        }
+
+        if ( ! Schema::hasTable('product_descriptions')) {
+            Schema::create('product_descriptions', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('product_id')->unsigned();
+                $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+
+                $table->string('title');
+                $table->longText('description');
                 $table->boolean('is_publish')->default(0);
                 $table->timestamps();
 
@@ -82,8 +97,6 @@ class MigrationLaravelProductModule extends Migration
 
                 $table->unsignedInteger('order'); // ürün vitrin sıralaması
 
-                $table->timestamps();
-
                 $table->engine = 'InnoDB';
             });
         }
@@ -95,7 +108,6 @@ class MigrationLaravelProductModule extends Migration
 
                 $table->integer('product_id')->unsigned()->index();
                 $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-                $table->timestamps();
 
                 $table->engine = 'InnoDB';
             });
@@ -124,6 +136,7 @@ class MigrationLaravelProductModule extends Migration
         Schema::drop('product_photos');
         Schema::drop('product_product_showcase');
         Schema::drop('product_product_category');
+        Schema::drop('product_descriptions');
         Schema::drop('products');
         Schema::drop('product_categories');
         Schema::drop('product_brands');

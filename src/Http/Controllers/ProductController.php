@@ -25,6 +25,20 @@ use ErenMustafaOzdal\LaravelProductModule\Http\Requests\Product\UpdateRequest;
 class ProductController extends BaseController
 {
     /**
+     * default relation datas
+     *
+     * @var array
+     */
+    private $relations = [
+        'descriptions' => [
+            'relation_type'     => 'hasMany',
+            'relation'          => 'descriptions',
+            'relation_model'    => '\App\ProductDescription',
+            'datas'             => null
+        ]
+    ];
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -58,6 +72,24 @@ class ProductController extends BaseController
             'success'   => StoreSuccess::class,
             'fail'      => StoreFail::class
         ]);
+        $relation = [];
+        if ($request->has('group-description')) {
+            $this->relations['descriptions']['datas'] = collect($request->get('group-description'))->reject(function($item)
+            {
+                return $item['description_title'] == '' || $item['description_description'] == '';
+            })->map(function($item,$key)
+            {
+                $item['title'] = $item['description_title'];
+                unsetReturn($item,'description_title');
+                $item['description'] = $item['description_description'];
+                unsetReturn($item,'description_description');
+                $item['is_publish'] = !isset($item['description_is_publish']) || !$item['description_is_publish'] ? 0 : 1;
+                unsetReturn($item,'description_is_publish');
+                return $item;
+            });
+            $relation[] = $this->relations['descriptions'];
+        }
+        $this->setOperationRelation($relation);
         return $this->storeModel(Product::class,'index');
     }
 
@@ -98,6 +130,24 @@ class ProductController extends BaseController
             'success'   => UpdateSuccess::class,
             'fail'      => UpdateFail::class
         ]);
+        $relation = [];
+        if ($request->has('group-description')) {
+            $this->relations['descriptions']['datas'] = collect($request->get('group-description'))->reject(function($item)
+            {
+                return $item['description_title'] == '' || $item['description_description'] == '';
+            })->map(function($item,$key)
+            {
+                $item['title'] = $item['description_title'];
+                unsetReturn($item,'description_title');
+                $item['description'] = $item['description_description'];
+                unsetReturn($item,'description_description');
+                $item['is_publish'] = !isset($item['description_is_publish']) || !$item['description_is_publish'] ? 0 : 1;
+                unsetReturn($item,'description_is_publish');
+                return $item;
+            });
+            $relation[] = $this->relations['descriptions'];
+        }
+        $this->setOperationRelation($relation);
         return $this->updateModel($product,'show', true);
     }
 

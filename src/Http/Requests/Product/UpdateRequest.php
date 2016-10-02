@@ -36,7 +36,7 @@ class UpdateRequest extends Request
                 'category_id'       => 'required|array',
                 'brand_id'          => 'required|integer',
                 'name'              => 'required|max:255',
-                'amount'            => 'required',
+                'group-description' => 'array',
             ];
         }
 

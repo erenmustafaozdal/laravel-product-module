@@ -25,7 +25,6 @@ class ProductShowcase extends Model
     protected $fillable = [
         'name',
     ];
-    public $timestamps = false;
 
 
 
