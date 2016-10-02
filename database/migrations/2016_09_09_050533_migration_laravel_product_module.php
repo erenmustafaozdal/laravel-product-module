@@ -22,6 +22,7 @@ class MigrationLaravelProductModule extends Migration
                 $table->integer('depth')->nullable();
 
                 $table->string('name');
+                $table->string('crop_type')->default('square');
                 $table->timestamps();
 
                 $table->engine = 'InnoDB';
@@ -51,6 +52,8 @@ class MigrationLaravelProductModule extends Migration
         if ( ! Schema::hasTable('products')) {
             Schema::create('products', function (Blueprint $table) {
                 $table->increments('id');
+                $table->integer('category_id')->unsigned();
+                $table->foreign('category_id')->references('id')->on('product_categories')->onDelete('cascade');
                 $table->integer('brand_id')->unsigned();
                 $table->foreign('brand_id')->references('id')->on('product_brands')->onDelete('cascade');
 
@@ -101,18 +104,6 @@ class MigrationLaravelProductModule extends Migration
             });
         }
 
-        if ( ! Schema::hasTable('product_product_category')) {
-            Schema::create('product_product_category', function (Blueprint $table) {
-                $table->integer('product_category_id')->unsigned()->index();
-                $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('cascade');
-
-                $table->integer('product_id')->unsigned()->index();
-                $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-
-                $table->engine = 'InnoDB';
-            });
-        }
-
         if ( ! Schema::hasTable('product_photos')) {
             Schema::create('product_photos', function (Blueprint $table) {
                 $table->increments('id');
@@ -135,7 +126,6 @@ class MigrationLaravelProductModule extends Migration
     {
         Schema::drop('product_photos');
         Schema::drop('product_product_showcase');
-        Schema::drop('product_product_category');
         Schema::drop('product_descriptions');
         Schema::drop('products');
         Schema::drop('product_categories');

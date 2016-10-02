@@ -29,7 +29,8 @@ class UpdateRequest extends Request
     {
         return [
             'name'              => 'required|max:255',
-            'parent'            => 'integer'
+            'parent'            => 'integer',
+            'crop_type'         => 'required|in:square,vertical,horizontal'
         ];
     }
 }

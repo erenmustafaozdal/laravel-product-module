@@ -23,6 +23,7 @@ class ProductCategory extends Node
      */
     protected $fillable = [
         'name',
+        'crop_type'
     ];
 
 
