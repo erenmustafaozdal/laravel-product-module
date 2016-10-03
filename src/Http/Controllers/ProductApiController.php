@@ -34,7 +34,8 @@ class ProductApiController extends BaseController
     private $urls = [
         'publish'       => ['route' => 'api.product.publish', 'id' => true],
         'not_publish'   => ['route' => 'api.product.notPublish', 'id' => true],
-        'edit_page'     => ['route' => 'admin.product.edit', 'id' => true]
+        'edit_page'     => ['route' => 'admin.product.edit', 'id' => true],
+        'copy_page'     => ['route' => 'admin.product.copy', 'id' => true]
     ];
 
     /**
@@ -46,7 +47,7 @@ class ProductApiController extends BaseController
     public function index(Request $request)
     {
         $products = Product::with(['category','brand','mainPhoto'])
-            ->select(['id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
+            ->select(['id','category_id','brand_id','name','amount','code','photo_id','is_publish','created_at']);
 
         if ($request->has('action') && $request->input('action') === 'filter') {
             $products->filter($request);
@@ -68,11 +69,11 @@ class ProductApiController extends BaseController
             },
             'category'        => function($model)
             {
-                return $model->ancestorsAndSelf()->get()->map(function($item,$key)
+                return $model->category->ancestorsAndSelf()->get()->map(function($item,$key)
                 {
                     $item->name = $item->name_uc_first;
                     return $item;
-                });
+                })->toArray();
             }
         ];
         $removeColumns = ['category_id','brand_id','photo_id','is_publish','mainPhoto'];
@@ -90,7 +91,7 @@ class ProductApiController extends BaseController
     {
         $product = Product::with(['category','brand','photos','showcases'])
             ->where('id',$id)
-            ->select(['id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
+            ->select(['id','category_id','brand_id','name','amount','code','photo_id','short_description','description','meta_title','meta_description','meta_keywords','created_at','updated_at']);
 
         $editColumns = [
             'name'          => function($model) { return $model->name_uc_first; },
@@ -111,11 +112,11 @@ class ProductApiController extends BaseController
                 })->toArray();
             },
             'category'        => function($model) {
-                return $model->ancestorsAndSelf()->get()->map(function($item,$key)
+                return $model->category->ancestorsAndSelf()->get()->map(function($item,$key)
                 {
                     $item->name = $item->name_uc_first;
                     return $item;
-                });
+                })->toArray();
             }
         ];
         $removeColumns = ['category_id','brand_id'];

@@ -93,6 +93,7 @@ return [
             'create'    => 'laravel-modules-core::product.operation',           // get product create view blade
             'show'      => 'laravel-modules-core::product.show',                // get product show view blade
             'edit'      => 'laravel-modules-core::product.operation',           // get product edit view blade
+            'copy'      => 'laravel-modules-core::product.operation',           // get product copy view blade
         ],
         // product category view
         'product_category' => [
@@ -156,7 +157,8 @@ return [
             'path'                  => 'uploads/product',
             'max_size'              => '5120',
             'upload_max_file'       => 5,
-            'photo_aspect_ratio'    => 16/9,
+            'photo_vertical_ratio'  => 9/16,
+            'photo_horizontal_ratio'=> 16/9,
             'photo_mimes'           => 'jpeg,jpg,jpe,png',
             'photo_thumbnails' => [
                 'small'             => [ 'width' => 35, 'height' => null],

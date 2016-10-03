@@ -34,6 +34,7 @@ class ProductController extends BaseController
             'relation_type'     => 'hasMany',
             'relation'          => 'descriptions',
             'relation_model'    => '\App\ProductDescription',
+            'is_reset'          => true,
             'datas'             => null
         ]
     ];
@@ -164,6 +165,53 @@ class ProductController extends BaseController
             'fail'      => DestroyFail::class
         ]);
         return $this->destroyModel($product,'index');
+    }
+
+    /**
+     * copy model
+     *
+     * @param Product $product
+     * @return \Illuminate\Http\Response
+     */
+    public function copy($product)
+    {
+        $operation = 'copy';
+        return view(config('laravel-product-module.views.product.copy'), compact('product','operation'));
+    }
+
+    /**
+     * Store a copied resource in storage.
+     *
+     * @param  StoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCopy(StoreRequest $request)
+    {
+        dd($request->all());
+        $this->setToFileOptions($request, ['photos.photo' => 'multiple_photo']);
+        $this->setEvents([
+            'success'   => StoreSuccess::class,
+            'fail'      => StoreFail::class
+        ]);
+        $relation = [];
+        if ($request->has('group-description')) {
+            $this->relations['descriptions']['datas'] = collect($request->get('group-description'))->reject(function($item)
+            {
+                return $item['description_title'] == '' || $item['description_description'] == '';
+            })->map(function($item,$key)
+            {
+                $item['title'] = $item['description_title'];
+                unsetReturn($item,'description_title');
+                $item['description'] = $item['description_description'];
+                unsetReturn($item,'description_description');
+                $item['is_publish'] = !isset($item['description_is_publish']) || !$item['description_is_publish'] ? 0 : 1;
+                unsetReturn($item,'description_is_publish');
+                return $item;
+            });
+            $relation[] = $this->relations['descriptions'];
+        }
+        $this->setOperationRelation($relation);
+        return $this->storeModel(Product::class,'index');
     }
 
     /**

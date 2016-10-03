@@ -63,4 +63,22 @@ class ProductCategory extends Node
     | Model Set and Get Attributes
     |--------------------------------------------------------------------------
     */
+
+    /**
+     * get the category aspect ratio
+     *
+     * @return float
+     */
+    public function getAspectRatioAttribute()
+    {
+        if ($this->crop_type === 'square') {
+            return 1;
+        }
+
+        if ($this->crop_type === 'vertical') {
+            return config('laravel-product-module.product.uploads.photo.vertical_ratio');
+        }
+
+        return config('laravel-product-module.product.uploads.photo.horizontal_ratio');
+    }
 }

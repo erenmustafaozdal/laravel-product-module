@@ -80,16 +80,30 @@ Route::group([
     'namespace'     => config('laravel-product-module.controller.product_admin_namespace')
 ], function()
 {
+    // admin copy product
+    if (config('laravel-product-module.routes.admin.product_copy')) {
+        Route::get('products/{' . config('laravel-product-module.url.product') . '}/copy', [
+            'as'                => 'admin.product.copy',
+            'uses'              => config('laravel-product-module.controller.product').'@copy'
+        ]);
+    }
+    // admin store copy product
+    if (config('laravel-product-module.routes.admin.product_storeCopy')) {
+        Route::post('products/{' . config('laravel-product-module.url.product') . '}/store-copy', [
+            'as'                => 'admin.product.storeCopy',
+            'uses'              => config('laravel-product-module.controller.product').'@storeCopy'
+        ]);
+    }
     // admin publish product
     if (config('laravel-product-module.routes.admin.product_publish')) {
-        Route::get('product/{' . config('laravel-product-module.url.product') . '}/publish', [
+        Route::get('products/{' . config('laravel-product-module.url.product') . '}/publish', [
             'as'                => 'admin.product.publish',
             'uses'              => config('laravel-product-module.controller.product').'@publish'
         ]);
     }
     // admin not publish product
     if (config('laravel-product-module.routes.admin.product_notPublish')) {
-        Route::get('product/{' . config('laravel-product-module.url.product') . '}/not-publish', [
+        Route::get('products/{' . config('laravel-product-module.url.product') . '}/not-publish', [
             'as'                => 'admin.product.notPublish',
             'uses'              => config('laravel-product-module.controller.product').'@notPublish'
         ]);

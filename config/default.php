@@ -15,6 +15,8 @@ return [
             'product_brand'             => true,    // admin product brand resource route
             'product_showcase'          => true,    // admin product showcase resource route
             // others
+            'product_copy'              => true,   // admin product copy get route
+            'product_storeCopy'         => true,   // admin product store copy post route
             'product_publish'           => true,   // admin product publish get route
             'product_notPublish'        => true,   // admin product not publish get route
         ],

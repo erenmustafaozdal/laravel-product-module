@@ -71,6 +71,8 @@ class LaravelProductModuleServiceProvider extends ServiceProvider
         // admin product routes
         $route = $config['routes']['admin']['product'];
         $default['routes']['admin']['product'] = $route;
+        $default['routes']['admin']['product_copy'] = $route;
+        $default['routes']['admin']['product_storeCopy'] = $route;
         $default['routes']['admin']['product_publish'] = $route;
         $default['routes']['admin']['product_notPublish'] = $route;
 
@@ -114,15 +116,20 @@ class LaravelProductModuleServiceProvider extends ServiceProvider
         $default['product']['uploads']['photo']['max_size'] = $max_size;
         $default['product']['uploads']['multiple_photo']['max_size'] = $max_size;
         $default['product']['uploads']['multiple_photo']['max_file'] = unsetReturn($config['product']['uploads'],'upload_max_file');
-        $aspect_ratio = unsetReturn($config['product']['uploads'],'photo_aspect_ratio');
-        $default['product']['uploads']['photo']['aspect_ratio'] = $aspect_ratio;
-        $default['product']['uploads']['multiple_photo']['aspect_ratio'] = $aspect_ratio;
         $mimes = unsetReturn($config['product']['uploads'],'photo_mimes');
         $default['product']['uploads']['photo']['mimes'] = $mimes;
         $default['product']['uploads']['multiple_photo']['mimes'] = $mimes;
         $thumbnails = unsetReturn($config['product']['uploads'],'photo_thumbnails');
         $default['product']['uploads']['photo']['thumbnails'] = $thumbnails;
         $default['product']['uploads']['multiple_photo']['thumbnails'] = $thumbnails;
+
+        $vertical_ratio = unsetReturn($config['product']['uploads'],'photo_vertical_ratio');
+        $default['product']['uploads']['photo']['vertical_ratio'] = $vertical_ratio;
+        $default['product']['uploads']['multiple_photo']['vertical_ratio'] = $vertical_ratio;
+        $horizontal_ratio = unsetReturn($config['product']['uploads'],'photo_horizontal_ratio');
+        $default['product']['uploads']['photo']['horizontal_ratio'] = $horizontal_ratio;
+        $default['product']['uploads']['multiple_photo']['horizontal_ratio'] = $horizontal_ratio;
+
         $config['product']['uploads']['photo'] = $default['product']['uploads']['photo'];
         $config['product']['uploads']['multiple_photo'] = $default['product']['uploads']['multiple_photo'];
 
