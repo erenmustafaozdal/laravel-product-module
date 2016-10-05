@@ -34,14 +34,14 @@ class StoreRequest extends Request
             'category_id'       => 'required',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
-            'group-description' => 'array',
+            'group-description' => 'array'
         ];
 
         // photo elfinder mi
         if ($this->has('photo') && is_string($this->photo)) {
-            $rules['photo'] = "elfinder_max:{$max_photo}|elfinder:{$mimes_photo}";
+            $rules['photo'] = "required|elfinder_max:{$max_photo}|elfinder:{$mimes_photo}";
         } else {
-            $rules['photo'] = 'array|max:' . config('laravel-product-module.product.uploads.multiple_photo.max_file');
+            $rules['photo'] = 'required|array|min:1|max:' . config('laravel-product-module.product.uploads.multiple_photo.max_file');
             for($i = 0; $i < count($this->file('photo')); $i++) {
                 $rules['photo.' . $i] = "max:{$max_photo}|image|mimes:{$mimes_photo}";
             }
