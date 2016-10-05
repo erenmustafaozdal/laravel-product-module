@@ -245,7 +245,7 @@ class ProductController extends BaseController
     private function copyIsDifferent(StoreRequest $request)
     {
         // control product model
-        $new = $request->except(['_token','id','x','y','width','height','init_photo','photo','group-description','showcase_id','is_publish']);
+        $new = $request->except(['_token','id','x','y','width','height','init_photo','photo','group-description','showcase_id','is_publish','crop_type']);
         $new['amount'] = ! $new['amount'] ?: str_replace(['_','.'], [''], $new['amount']);
         $new['description'] = str_replace(["\r\n","\r","\n"], '', $new['description']);
         $product = Product::with(['descriptions','showcases','photos'])->where('id',$request->id)->first();

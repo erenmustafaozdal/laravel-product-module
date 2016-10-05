@@ -157,13 +157,13 @@ return [
             'path'                  => 'uploads/product',
             'max_size'              => '5120',
             'upload_max_file'       => 5,
-            'photo_vertical_ratio'  => 9/16,
-            'photo_horizontal_ratio'=> 16/9,
+            'photo_vertical_ratio'  => 150/200,
+            'photo_horizontal_ratio'=> 200/150,
             'photo_mimes'           => 'jpeg,jpg,jpe,png',
             'photo_thumbnails' => [
-                'small'             => [ 'width' => 35, 'height' => null],
-                'normal'            => [ 'width' => 300, 'height' => null],
-                'big'               => [ 'width' => 800, 'height' => null],
+                'small'             => [ 'width' => 200, 'height' => 150],
+                'normal'            => [ 'width' => 800, 'height' => 600],
+                'big'               => [ 'width' => 1200, 'height' => 900],
             ]
         ]
     ]
