@@ -28,7 +28,7 @@ class ApiStoreRequest extends Request
     public function rules()
     {
         return [
-            'category_id'       => 'required|array',
+            'category_id'       => 'required',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
             'amount'            => 'required',

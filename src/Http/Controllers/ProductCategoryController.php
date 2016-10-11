@@ -4,10 +4,7 @@ namespace ErenMustafaOzdal\LaravelProductModule\Http\Controllers;
 
 
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\ProductCategory;
-use App\Product;
-use Laracasts\Flash\Flash;
 
 use ErenMustafaOzdal\LaravelModulesBase\Controllers\BaseNodeController;
 // events

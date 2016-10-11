@@ -72,21 +72,21 @@ class ProductCategoryApiController extends BaseNodeController
     /**
      * Update the specified resource in storage.
      *
-     * @param  ProductCategory $dealer_category
+     * @param  ProductCategory $product_category
      * @param  ApiUpdateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(ApiUpdateRequest $request, ProductCategory $dealer_category)
+    public function update(ApiUpdateRequest $request, ProductCategory $product_category)
     {
         $this->setEvents([
             'success'   => UpdateSuccess::class,
             'fail'      => UpdateFail::class
         ]);
-        $this->updateModel($dealer_category);
+        $this->updateModel($product_category);
 
         return [
-            'id'        => $dealer_category->id,
-            'name'      => $dealer_category->name_uc_first
+            'id'        => $product_category->id,
+            'name'      => $product_category->name_uc_first
         ];
     }
 
@@ -99,28 +99,28 @@ class ProductCategoryApiController extends BaseNodeController
      */
     public function move(ApiMoveRequest $request, $id)
     {
-        $dealer_category = ProductCategory::findOrFail($id);
+        $product_category = ProductCategory::findOrFail($id);
         $this->setDefineValues(['type']);
         $this->setEvents([
             'success'   => MoveSuccess::class,
             'fail'      => MoveFail::class
         ]);
-        return $this->moveModel($dealer_category);
+        return $this->moveModel($product_category);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ProductCategory  $dealer_category
+     * @param  ProductCategory  $product_category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ProductCategory $dealer_category)
+    public function destroy(ProductCategory $product_category)
     {
         $this->setEvents([
             'success'   => DestroySuccess::class,
             'fail'      => DestroyFail::class
         ]);
-        return $this->destroyModel($dealer_category);
+        return $this->destroyModel($product_category);
     }
 
     /**
@@ -132,8 +132,8 @@ class ProductCategoryApiController extends BaseNodeController
     public function models(Request $request)
     {
         if($request->has('id')) {
-            $dealer_category = ProductCategory::find($request->input('id'));
-            $models = $dealer_category->descendants()->where('name', 'like', "%{$request->input('query')}%");
+            $product_category = ProductCategory::find($request->input('id'));
+            $models = $product_category->descendants()->where('name', 'like', "%{$request->input('query')}%");
 
         } else {
             $models = ProductCategory::where('name', 'like', "%{$request->input('query')}%");
