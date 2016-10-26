@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 use ErenMustafaOzdal\LaravelModulesBase\Repositories\FileRepository;
+use ErenMustafaOzdal\LaravelModulesBase\Repositories\ImageRepository;
 use Illuminate\Support\Facades\Request;
 
 class Product extends Model
@@ -234,6 +235,43 @@ class Product extends Model
     public function getDescriptionAttribute($description)
     {
         return clean($description, 'iframe');
+    }
+
+    /**
+     * get photo url of the element
+     *
+     * @return string
+     */
+    public function getPhotoUrlAttribute()
+    {
+        if (is_null($this->mainPhoto)) {
+            return "http://placehold.it/{$this->thumbnail_sizes['width']}x{$this->thumbnail_sizes['height']}";
+        }
+        $config = array_keys(config('laravel-product-module.product.uploads.photo.thumbnails'));
+        return $this->mainPhoto->getPhoto([], $config[0], true, 'product', 'product_id');
+    }
+
+    /**
+     * get thumbnail sizes of the element
+     *
+     * @return array
+     */
+    public function getThumbnailSizesAttribute()
+    {
+        $crop_type = $this->category->crop_type;
+        $thumbnail = collect(config('laravel-product-module.product.uploads.photo.thumbnails'))->first();
+        $image = new ImageRepository(config('laravel-product-module.product.uploads'));
+        return $image->getCropTypeSize($thumbnail, $crop_type);
+    }
+
+    /**
+     * get common title of the element
+     *
+     * @return string
+     */
+    public function getCommonTitleAttribute()
+    {
+        return $this->name_uc_first;
     }
 
 

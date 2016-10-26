@@ -2,10 +2,10 @@
 
 namespace ErenMustafaOzdal\LaravelProductModule\Http\Requests\Product;
 
-use App\Http\Requests\Request;
+use ErenMustafaOzdal\LaravelModulesBase\Requests\BaseRequest;
 use Sentinel;
 
-class StoreRequest extends Request
+class StoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,9 @@ class StoreRequest extends Request
     {
         $max_photo = config('laravel-product-module.product.uploads.photo.max_size');
         $mimes_photo = config('laravel-product-module.product.uploads.photo.mimes');
+        $max_file = config('laravel-product-module.product.uploads.multiple_photo.max_file');
 
-        $rules = [
+        $this->rules = [
             'category_id'       => 'required',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
@@ -38,15 +39,8 @@ class StoreRequest extends Request
         ];
 
         // photo elfinder mi
-        if ($this->has('photo') && is_string($this->photo)) {
-            $rules['photo'] = "required|elfinder_max:{$max_photo}|elfinder:{$mimes_photo}";
-        } else {
-            $rules['photo'] = 'required|array|min:1|max:' . config('laravel-product-module.product.uploads.multiple_photo.max_file');
-            for($i = 0; $i < count($this->file('photo')); $i++) {
-                $rules['photo.' . $i] = "max:{$max_photo}|image|mimes:{$mimes_photo}";
-            }
-        }
+        $this->addFileRule('photo', $max_photo, $mimes_photo, $max_file);
 
-        return $rules;
+        return $this->rules;
     }
 }
