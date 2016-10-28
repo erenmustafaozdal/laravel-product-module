@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use ErenMustafaOzdal\LaravelModulesBase\Traits\ModelDataTrait;
 use ErenMustafaOzdal\LaravelModulesBase\Repositories\FileRepository;
-use ErenMustafaOzdal\LaravelModulesBase\Repositories\ImageRepository;
 use Illuminate\Support\Facades\Request;
 
 class Product extends Model
@@ -238,40 +237,25 @@ class Product extends Model
     }
 
     /**
-     * get photo url of the element
+     * Get the short description attribute.
+     * clean iframe for xss atack
      *
+     * @param string $short_description
      * @return string
      */
-    public function getPhotoUrlAttribute()
+    public function getShortDescriptionAttribute($short_description)
     {
-        if (is_null($this->mainPhoto)) {
-            return "http://placehold.it/{$this->thumbnail_sizes['width']}x{$this->thumbnail_sizes['height']}";
-        }
-        $config = array_keys(config('laravel-product-module.product.uploads.photo.thumbnails'));
-        return $this->mainPhoto->getPhoto([], $config[0], true, 'product', 'product_id');
+        return clean($short_description, 'iframe');
     }
 
     /**
-     * get thumbnail sizes of the element
-     *
-     * @return array
-     */
-    public function getThumbnailSizesAttribute()
-    {
-        $crop_type = $this->category->crop_type;
-        $thumbnail = collect(config('laravel-product-module.product.uploads.photo.thumbnails'))->first();
-        $image = new ImageRepository(config('laravel-product-module.product.uploads'));
-        return $image->getCropTypeSize($thumbnail, $crop_type);
-    }
-
-    /**
-     * get common title of the element
+     * Get the striped short description attribute.
      *
      * @return string
      */
-    public function getCommonTitleAttribute()
+    public function getStripedShortDescriptionAttribute()
     {
-        return $this->name_uc_first;
+        return strip_tags($this->short_description);
     }
 
 
