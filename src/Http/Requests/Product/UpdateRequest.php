@@ -30,6 +30,7 @@ class UpdateRequest extends BaseRequest
     {
         $max_photo = config('laravel-product-module.product.uploads.photo.max_size');
         $mimes_photo = config('laravel-product-module.product.uploads.photo.mimes');
+        $max_file = config('laravel-product-module.product.uploads.multiple_photo.max_file');
         $this->rules = [];
 
         if( $this->form === 'general' ) {

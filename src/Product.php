@@ -103,6 +103,21 @@ class Product extends Model
         return $query;
     }
 
+    /**
+     * showcase filter scope
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param integer $id
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOfShowcase($query, $id)
+    {
+        return $query->has('showcases', '>=', 1, 'and', function($query) use($id)
+        {
+            return $query->whereId($id);
+        });
+    }
+
 
 
 
@@ -389,21 +404,25 @@ class Product extends Model
         {
             // showcase add
             if (Request::has('showcase_id')) {
-                $ids = collect(Request::get('showcase_id'))->filter(function($showcase)
-                {
-                    return (isset($showcase['type']) && $showcase['type']) || (isset($showcase['order']) && $showcase['order']);
-                })->map(function($showcase, $id) use($model)
-                {
-                    if ( ! $showcase['type'] ) {
-                        return $id;
-                    }
-                    $method = camel_case( "get_{$showcase['type']}_order" );
-                    $order = $model->$method($showcase, $id);
-                    if ( $showcase['type'] !== 'last' ) {
-                        $model->showcaseOrderMove($id,$order);
-                    }
-                    return ['order' => $order];
-                })->all();
+                $showcase = Request::get('showcase_id');
+                $ids = [];
+                if ($showcase != 0) {
+                    $ids = collect($showcase)->filter(function($showcase)
+                    {
+                        return (isset($showcase['type']) && $showcase['type']) || (isset($showcase['order']) && $showcase['order']);
+                    })->map(function($showcase, $id) use($model)
+                    {
+                        if ( ! $showcase['type'] ) {
+                            return $id;
+                        }
+                        $method = camel_case( "get_{$showcase['type']}_order" );
+                        $order = $model->$method($showcase, $id);
+                        if ( $showcase['type'] !== 'last' ) {
+                            $model->showcaseOrderMove($id,$order);
+                        }
+                        return ['order' => $order];
+                    })->all();
+                }
                 $model->showcases()->sync( $ids );
             }
         });

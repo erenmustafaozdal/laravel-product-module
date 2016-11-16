@@ -228,7 +228,7 @@ class ProductController extends BaseController
 
         // eğer boşsa ana fotoğraf eklenir
         $model = $this->getModel();
-        if ( is_null($model->photo_id) && ! is_null($model->photos->first()) ) {
+        if ( $model->photo_id == 0 && ! is_null($model->photos->first()) ) {
             if (!$model->fill(['photo_id' => $model->photos->first()->id])->save()) {
                 return false;
             }
