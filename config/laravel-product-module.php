@@ -184,9 +184,13 @@ return [
             'routes' => [
                 'admin.product_category.index' => [
                     'title'         => 'Veri Tablosu',
-                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda listeleyebilir.',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorileri veri tablosu sayfasına gidebilir.',
                 ],
                 'admin.product_category.create' => [
+                    'title'         => 'Ekleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisi ekleme sayfasına gidebilir',
+                ],
+                'admin.product_category.store' => [
                     'title'         => 'Ekleme',
                     'description'   => 'Bu izne sahip olanlar ürün kategorisi ekleyebilir',
                 ],
@@ -195,6 +199,10 @@ return [
                     'description'   => 'Bu izne sahip olanlar ürün kategorisi bilgilerini görüntüleyebilir',
                 ],
                 'admin.product_category.edit' => [
+                    'title'         => 'Düzenleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisini düzenleme sayfasına gidebilir',
+                ],
+                'admin.product_category.update' => [
                     'title'         => 'Düzenleme',
                     'description'   => 'Bu izne sahip olanlar ürün kategorisini düzenleyebilir',
                 ],
@@ -202,13 +210,33 @@ return [
                     'title'         => 'Silme',
                     'description'   => 'Bu izne sahip olanlar ürün kategorisini silebilir',
                 ],
+                'api.product_category.index' => [
+                    'title'         => 'Listeleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda listeleyebilir',
+                ],
+                'api.product_category.store' => [
+                    'title'         => 'Hızlı Ekleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda hızlı ekleyebilir.',
+                ],
+                'api.product_category.update' => [
+                    'title'         => 'Hızlı Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda hızlı düzenleyebilir.',
+                ],
+                'api.product_category.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda silebilir',
+                ],
                 'api.product_category.models' => [
-                    'title'         => 'Rolleri Listeleme',
+                    'title'         => 'Seçim İçin Listeleme',
                     'description'   => 'Bu izne sahip olanlar ürün kategorilerini bazı seçim kutularında listeleyebilir',
                 ],
                 'api.product_category.move' => [
                     'title'         => 'Taşıma',
                     'description'   => 'Bu izne sahip olanlar ürün kategorilerini taşıyarak yerini değiştirebilir.',
+                ],
+                'api.product_category.detail' => [
+                    'title'         => 'Detaylar',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerinin detay bilgilerini getirebilir.',
                 ],
             ],
         ],
@@ -217,32 +245,64 @@ return [
             'routes' => [
                 'admin.product_brand.index' => [
                     'title'         => 'Veri Tablosu',
-                    'description'   => 'Bu izne sahip olanlar markaları veri tablosunda listeleyebilir.',
+                    'description'   => 'Bu izne sahip olanlar ürün markaları veri tablosu sayfasına gidebilir.',
                 ],
                 'admin.product_brand.create' => [
+                    'title'         => 'Ekleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürün markası ekleme sayfasına gidebilir',
+                ],
+                'admin.product_brand.store' => [
                     'title'         => 'Ekleme',
-                    'description'   => 'Bu izne sahip olanlar marka ekleyebilir',
+                    'description'   => 'Bu izne sahip olanlar ürün markası ekleyebilir',
                 ],
                 'admin.product_brand.show' => [
                     'title'         => 'Gösterme',
-                    'description'   => 'Bu izne sahip olanlar marka bilgilerini görüntüleyebilir',
+                    'description'   => 'Bu izne sahip olanlar ürün markası bilgilerini görüntüleyebilir',
                 ],
                 'admin.product_brand.edit' => [
+                    'title'         => 'Düzenleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürün markasını düzenleme sayfasına gidebilir',
+                ],
+                'admin.product_brand.update' => [
                     'title'         => 'Düzenleme',
-                    'description'   => 'Bu izne sahip olanlar marka bilgilerini düzenleyebilir',
+                    'description'   => 'Bu izne sahip olanlar ürün markasını düzenleyebilir',
                 ],
                 'admin.product_brand.destroy' => [
                     'title'         => 'Silme',
-                    'description'   => 'Bu izne sahip olanlar markayı silebilir',
+                    'description'   => 'Bu izne sahip olanlar ürün markasını silebilir',
+                ],
+                'api.product_brand.index' => [
+                    'title'         => 'Listeleme',
+                    'description'   => 'Bu izne sahip olanlar ürün markalarını veri tablosunda listeleyebilir',
+                ],
+                'api.product_brand.store' => [
+                    'title'         => 'Hızlı Ekleme',
+                    'description'   => 'Bu izne sahip olanlar ürün markalarını veri tablosunda hızlı ekleyebilir.',
+                ],
+                'api.product_brand.update' => [
+                    'title'         => 'Hızlı Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar ürün markalarını veri tablosunda hızlı düzenleyebilir.',
+                ],
+                'api.product_brand.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar ürün markalarını veri tablosunda silebilir',
+                ],
+                'api.product_brand.models' => [
+                    'title'         => 'Seçim İçin Listeleme',
+                    'description'   => 'Bu izne sahip olanlar ürün markalarını bazı seçim kutularında listeleyebilir',
                 ],
                 'api.product_brand.group' => [
                     'title'         => 'Toplu İşlem',
-                    'description'   => 'Bu izne sahip olanlar markalar veri tablosunda toplu işlem yapabilir',
+                    'description'   => 'Bu izne sahip olanlar ürün markaları veri tablosunda toplu işlem yapabilir',
                 ],
                 'api.product_brand.detail' => [
                     'title'         => 'Detaylar',
-                    'description'   => 'Bu izne sahip olanlar markalar tablosunda detayını görebilir.',
-                ]
+                    'description'   => 'Bu izne sahip olanlar ürün markaları tablosunda detayını görebilir.',
+                ],
+                'api.product_brand.fastEdit' => [
+                    'title'         => 'Hızlı Düzenleme Bilgileri',
+                    'description'   => 'Bu izne sahip olanlar ürün markaları tablosunda hızlı düzenleme amacıyla bilgileri getirebilir.',
+                ],
             ],
         ],
         'product' => [
@@ -250,9 +310,13 @@ return [
             'routes' => [
                 'admin.product.index' => [
                     'title'         => 'Veri Tablosu',
-                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda listeleyebilir.',
+                    'description'   => 'Bu izne sahip olanlar ürünler veri tablosu sayfasına gidebilir.',
                 ],
                 'admin.product.create' => [
+                    'title'         => 'Ekleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürün ekleme sayfasına gidebilir',
+                ],
+                'admin.product.store' => [
                     'title'         => 'Ekleme',
                     'description'   => 'Bu izne sahip olanlar ürün ekleyebilir',
                 ],
@@ -261,12 +325,48 @@ return [
                     'description'   => 'Bu izne sahip olanlar ürün bilgilerini görüntüleyebilir',
                 ],
                 'admin.product.edit' => [
+                    'title'         => 'Düzenleme Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürünü düzenleme sayfasına gidebilir',
+                ],
+                'admin.product.update' => [
                     'title'         => 'Düzenleme',
-                    'description'   => 'Bu izne sahip olanlar ürün bilgilerini düzenleyebilir',
+                    'description'   => 'Bu izne sahip olanlar ürünü düzenleyebilir',
                 ],
                 'admin.product.destroy' => [
                     'title'         => 'Silme',
                     'description'   => 'Bu izne sahip olanlar ürünü silebilir',
+                ],
+                'admin.product.copy' => [
+                    'title'         => 'Kopyalama Sayfası',
+                    'description'   => 'Bu izne sahip olanlar ürünü kopyalama sayfasına gidebilir.',
+                ],
+                'admin.product.storeCopy' => [
+                    'title'         => 'Kopyalama',
+                    'description'   => 'Bu izne sahip olanlar ürünü kopyalayabilir.',
+                ],
+                'admin.product.publish' => [
+                    'title'         => 'Yayınlama',
+                    'description'   => 'Bu izne sahip olanlar ürünü yayınlayabilir',
+                ],
+                'admin.product.notPublish' => [
+                    'title'         => 'Yayından Kaldırma',
+                    'description'   => 'Bu izne sahip olanlar ürünü yayından kaldırabilir',
+                ],
+                'api.product.index' => [
+                    'title'         => 'Listeleme',
+                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda listeleyebilir',
+                ],
+                'api.product.store' => [
+                    'title'         => 'Hızlı Ekleme',
+                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda hızlı ekleyebilir.',
+                ],
+                'api.product.update' => [
+                    'title'         => 'Hızlı Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda hızlı düzenleyebilir.',
+                ],
+                'api.product.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda silebilir',
                 ],
                 'api.product.group' => [
                     'title'         => 'Toplu İşlem',
@@ -275,7 +375,27 @@ return [
                 'api.product.detail' => [
                     'title'         => 'Detaylar',
                     'description'   => 'Bu izne sahip olanlar ürünler tablosunda detayını görebilir.',
-                ]
+                ],
+                'api.product.fastEdit' => [
+                    'title'         => 'Hızlı Düzenleme Bilgileri',
+                    'description'   => 'Bu izne sahip olanlar ürünler tablosunda hızlı düzenleme amacıyla bilgileri getirebilir.',
+                ],
+                'api.product.publish' => [
+                    'title'         => 'Hızlı Yayınlama',
+                    'description'   => 'Bu izne sahip olanlar ürünler tablosunda ürünü yayınlanyabilir.',
+                ],
+                'api.product.notPublish' => [
+                    'title'         => 'Hızlı Yayından Kaldırma',
+                    'description'   => 'Bu izne sahip olanlar ürünler tablosunda ürünü yayından kaldırabilir.',
+                ],
+                'api.product.removePhoto' => [
+                    'title'         => 'Fotoğraf Silme',
+                    'description'   => 'Bu izne sahip olanlar fotoğraf silebilir.',
+                ],
+                'api.product.setMainPhoto' => [
+                    'title'         => 'Ana Fotoğraf',
+                    'description'   => 'Bu izne sahip olanlar fotoğrafı ürünün ana fotoğrafı yapabilir.',
+                ],
             ],
         ]
     ],
