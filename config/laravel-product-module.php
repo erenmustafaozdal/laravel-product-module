@@ -166,5 +166,117 @@ return [
                 'big'               => [ 'width' => 1200, 'height' => 900],
             ]
         ]
-    ]
+    ],
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Permissions
+    |--------------------------------------------------------------------------
+    */
+    'permissions' => [
+        'product_category' => [
+            'title'                 => 'Ürün Kategorileri',
+            'routes' => [
+                'admin.product_category.index' => [
+                    'title'         => 'Veri Tablosu',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini veri tablosunda listeleyebilir.',
+                ],
+                'admin.product_category.create' => [
+                    'title'         => 'Ekleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisi ekleyebilir',
+                ],
+                'admin.product_category.show' => [
+                    'title'         => 'Gösterme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisi bilgilerini görüntüleyebilir',
+                ],
+                'admin.product_category.edit' => [
+                    'title'         => 'Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisini düzenleyebilir',
+                ],
+                'admin.product_category.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorisini silebilir',
+                ],
+                'api.product_category.models' => [
+                    'title'         => 'Rolleri Listeleme',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini bazı seçim kutularında listeleyebilir',
+                ],
+                'api.product_category.move' => [
+                    'title'         => 'Taşıma',
+                    'description'   => 'Bu izne sahip olanlar ürün kategorilerini taşıyarak yerini değiştirebilir.',
+                ],
+            ],
+        ],
+        'product_brand' => [
+            'title'                 => 'Ürün Markaları',
+            'routes' => [
+                'admin.product_brand.index' => [
+                    'title'         => 'Veri Tablosu',
+                    'description'   => 'Bu izne sahip olanlar markaları veri tablosunda listeleyebilir.',
+                ],
+                'admin.product_brand.create' => [
+                    'title'         => 'Ekleme',
+                    'description'   => 'Bu izne sahip olanlar marka ekleyebilir',
+                ],
+                'admin.product_brand.show' => [
+                    'title'         => 'Gösterme',
+                    'description'   => 'Bu izne sahip olanlar marka bilgilerini görüntüleyebilir',
+                ],
+                'admin.product_brand.edit' => [
+                    'title'         => 'Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar marka bilgilerini düzenleyebilir',
+                ],
+                'admin.product_brand.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar markayı silebilir',
+                ],
+                'api.product_brand.group' => [
+                    'title'         => 'Toplu İşlem',
+                    'description'   => 'Bu izne sahip olanlar markalar veri tablosunda toplu işlem yapabilir',
+                ],
+                'api.product_brand.detail' => [
+                    'title'         => 'Detaylar',
+                    'description'   => 'Bu izne sahip olanlar markalar tablosunda detayını görebilir.',
+                ]
+            ],
+        ],
+        'product' => [
+            'title'                 => 'Ürünler',
+            'routes' => [
+                'admin.product.index' => [
+                    'title'         => 'Veri Tablosu',
+                    'description'   => 'Bu izne sahip olanlar ürünleri veri tablosunda listeleyebilir.',
+                ],
+                'admin.product.create' => [
+                    'title'         => 'Ekleme',
+                    'description'   => 'Bu izne sahip olanlar ürün ekleyebilir',
+                ],
+                'admin.product.show' => [
+                    'title'         => 'Gösterme',
+                    'description'   => 'Bu izne sahip olanlar ürün bilgilerini görüntüleyebilir',
+                ],
+                'admin.product.edit' => [
+                    'title'         => 'Düzenleme',
+                    'description'   => 'Bu izne sahip olanlar ürün bilgilerini düzenleyebilir',
+                ],
+                'admin.product.destroy' => [
+                    'title'         => 'Silme',
+                    'description'   => 'Bu izne sahip olanlar ürünü silebilir',
+                ],
+                'api.product.group' => [
+                    'title'         => 'Toplu İşlem',
+                    'description'   => 'Bu izne sahip olanlar ürünler veri tablosunda toplu işlem yapabilir',
+                ],
+                'api.product.detail' => [
+                    'title'         => 'Detaylar',
+                    'description'   => 'Bu izne sahip olanlar ürünler tablosunda detayını görebilir.',
+                ]
+            ],
+        ]
+    ],
 ];
