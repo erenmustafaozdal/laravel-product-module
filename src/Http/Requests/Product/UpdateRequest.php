@@ -15,10 +15,7 @@ class UpdateRequest extends BaseRequest
      */
     public function authorize()
     {
-        if (Sentinel::getUser()->is_super_admin || Sentinel::hasAccess('admin.product.update')) {
-            return true;
-        }
-        return false;
+        return hasPermission('admin.product.update');
     }
 
     /**
