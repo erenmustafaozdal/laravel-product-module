@@ -32,6 +32,7 @@ class StoreRequest extends BaseRequest
             'category_id'       => 'required',
             'brand_id'          => 'required|integer',
             'name'              => 'required|max:255',
+            'amount'            => 'required',
             'group-description' => 'array'
         ];
 
