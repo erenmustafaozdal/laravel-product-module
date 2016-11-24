@@ -61,7 +61,7 @@ class ProductApiController extends BaseController
             'created_at'        => function($model) { return $model->created_at_table; },
             'amount'            => function($model) { return $model->amount_turkish; },
             'code'              => function($model) { return $model->code_uc; },
-            'brand.name'        => function($model) { return $model->brand->name_uc_first; },
+            'brand.name'        => function($model) { return $model->brand ? $model->brand->name_uc_first : ''; },
             'main_photo'        => function($model)
             {
                 $photoKey = array_keys(config('laravel-product-module.product.uploads.photo.thumbnails'));
@@ -99,7 +99,7 @@ class ProductApiController extends BaseController
             'updated_at'    => function($model) { return $model->updated_at_table; },
             'amount'        => function($model) { return $model->amount_turkish; },
             'code'          => function($model) { return $model->code_uc; },
-            'brand.name'    => function($model) { return $model->brand->name_uc_first; },
+            'brand.name'    => function($model) { return $model->brand ? $model->brand->name_uc_first : ''; },
             'photos'        => function($model)
             {
                 // eğer çoklu fotoğraf ise
@@ -134,7 +134,7 @@ class ProductApiController extends BaseController
     {
         return Product::with(['category','brand'])
             ->where('id',$id)
-            ->first(['id','brand_id','name','amount','code']);
+            ->first(['id','category_id','brand_id','name','amount','code']);
     }
 
     /**

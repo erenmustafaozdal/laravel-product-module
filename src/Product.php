@@ -273,6 +273,20 @@ class Product extends Model
         return strip_tags($this->short_description);
     }
 
+    /**
+     * Set the brand_id attribute.
+     *
+     * @param number $brand_id
+     * @return string
+     */
+    public function setBrandIdAttribute($brand_id)
+    {
+        if ($brand_id === '') {
+            return;
+        }
+        $this->attributes['brand_id'] = $brand_id;
+    }
+
 
 
 

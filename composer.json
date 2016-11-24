@@ -19,7 +19,8 @@
         "illuminate/support": "~5",
         "erenmustafaozdal/laravel-modules-base": "dev-master",
         "baum/baum": "~1.1",
-        "mews/purifier": "~2.0"
+        "mews/purifier": "~2.0",
+        "doctrine/dbal": "~2.5"
     },
     "require-dev": {
 

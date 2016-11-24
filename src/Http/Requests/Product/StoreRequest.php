@@ -30,7 +30,7 @@ class StoreRequest extends BaseRequest
 
         $this->rules = [
             'category_id'       => 'required',
-            'brand_id'          => 'required|integer',
+            'brand_id'          => 'integer',
             'name'              => 'required|max:255',
             'amount'            => 'required',
             'group-description' => 'array'
