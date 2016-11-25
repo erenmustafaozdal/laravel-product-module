@@ -203,7 +203,7 @@ class Product extends Model
             return;
         }
         $amount = str_replace( ',', '.', str_replace(['_','.'], [''], $amount) );
-        $this->attributes['amount'] = number_format( $amount, 2, '.', ',');
+        $this->attributes['amount'] = floatval($amount);
     }
 
     /**
