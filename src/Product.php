@@ -200,6 +200,7 @@ class Product extends Model
     public function setAmountAttribute($amount)
     {
         if ($amount === '') {
+            $this->attributes['amount'] = null;
             return;
         }
         $amount = str_replace( ',', '.', str_replace(['_','.'], [''], $amount) );
