@@ -419,9 +419,11 @@ class Product extends Model
         {
             // showcase add
             if (Request::has('showcase_id')) {
-                $showcase = Request::get('showcase_id');
+                $showcase = is_array(Request::get('showcase_id'))
+                    ? Request::get('showcase_id')
+                    : json_decode(Request::get('showcase_id'),true);
                 $ids = [];
-                if ($showcase != 0) {
+                if ($showcase != 0 || $showcase) {
                     $ids = collect($showcase)->filter(function($showcase)
                     {
                         return (isset($showcase['type']) && $showcase['type']) || (isset($showcase['order']) && $showcase['order']);

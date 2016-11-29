@@ -26,7 +26,6 @@ class ApiUpdateRequest extends Request
     {
         return [
             'category_id'       => 'required',
-            'brand_id'          => 'integer',
             'name'              => 'required|max:255'
         ];
     }

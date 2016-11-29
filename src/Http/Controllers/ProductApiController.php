@@ -132,9 +132,9 @@ class ProductApiController extends BaseController
      */
     public function fastEdit($id, Request $request)
     {
-        return Product::with(['category','brand'])
+        return Product::with(['category','brand','showcases'])
             ->where('id',$id)
-            ->first(['id','category_id','brand_id','name','amount','code']);
+            ->first();
     }
 
     /**
@@ -145,6 +145,7 @@ class ProductApiController extends BaseController
      */
     public function store(ApiStoreRequest $request)
     {
+        $this->setToFileOptions($request, ['photos.photo' => 'multiple_photo']);
         $this->setEvents([
             'success'   => StoreSuccess::class,
             'fail'      => StoreFail::class
@@ -263,5 +264,35 @@ class ProductApiController extends BaseController
             return response()->json(['result' => 'success']);
         }
         return response()->json(['result' => 'error']);
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Operation Trait Override
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * fill model datas to database
+     *
+     * @param array $datas
+     * @return boolean
+     */
+    protected function fillModel($datas)
+    {
+        if ( ! parent::fillModel($datas) ) {
+            return false;
+        }
+
+        // eğer boşsa ana fotoğraf eklenir
+        $model = $this->getModel();
+        if ( $model->photo_id == 0 && ! is_null($model->photos->first()) ) {
+            if (!$model->fill(['photo_id' => $model->photos->first()->id])->save()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
