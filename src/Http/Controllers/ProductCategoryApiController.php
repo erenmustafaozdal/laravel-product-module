@@ -139,7 +139,13 @@ class ProductCategoryApiController extends BaseNodeController
             $models = ProductCategory::where('name', 'like', "%{$request->input('query')}%");
         }
 
-        $models = $models->get(['id','parent_id','lft','rgt','depth','name']);
-        return LMBCollection::renderAncestorsAndSelf($models, '/', ['name_uc_first']);
+        $parents = $models->get(['id','parent_id','lft','rgt','depth','name']);
+        $ids = $parents->keyBy('id')->keys();
+        $models = ProductCategory::whereIn('parent_id',$ids)
+            ->get(['id','parent_id','lft','rgt','depth','name']);
+        if ( ! $models ->isEmpty()) {
+            $parents = $parents->merge($models);
+        }
+        return LMBCollection::renderAncestorsAndSelf($parents, '/', ['name_uc_first']);
     }
 }
