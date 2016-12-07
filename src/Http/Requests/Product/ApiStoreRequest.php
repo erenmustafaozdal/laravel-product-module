@@ -2,10 +2,10 @@
 
 namespace ErenMustafaOzdal\LaravelProductModule\Http\Requests\Product;
 
-use App\Http\Requests\Request;
+use ErenMustafaOzdal\LaravelModulesBase\Requests\BaseRequest;
 use Sentinel;
 
-class ApiStoreRequest extends Request
+class ApiStoreRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
