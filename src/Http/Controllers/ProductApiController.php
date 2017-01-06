@@ -227,7 +227,7 @@ class ProductApiController extends BaseController
      */
     public function removePhoto(Product $product, Request $request)
     {
-        if ($product->photos()->where('id',$request->id)->first()->delete()) {
+        if (!is_null($photo = $product->photos()->where('id',$request->id)->first()) && $photo->delete()) {
             // eğer ana fotoğraf ise diğer ilk fotoğrafı ana fotoğraf yap
             $product->photo_id = is_null($product->photos->first()) ? null : $product->photos->first()->id;
             $product->save();
