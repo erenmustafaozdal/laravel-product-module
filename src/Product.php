@@ -441,6 +441,9 @@ class Product extends Model
                     })->all();
                 }
                 $model->showcases()->sync( $ids );
+
+                // cache forget
+                \Cache::forget('home_mini_slider');
             }
         });
 
@@ -453,6 +456,9 @@ class Product extends Model
         {
             $file = new FileRepository(config('laravel-product-module.product.uploads'));
             $file->deleteDirectories($model);
+
+            // cache forget
+            \Cache::forget('home_mini_slider');
         });
     }
 }
