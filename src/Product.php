@@ -444,6 +444,7 @@ class Product extends Model
 
                 // cache forget
                 \Cache::forget('home_mini_slider');
+                \Cache::forget('home_creative_slider');
             }
         });
 
@@ -459,6 +460,7 @@ class Product extends Model
 
             // cache forget
             \Cache::forget('home_mini_slider');
+            \Cache::forget('home_creative_slider');
         });
     }
 }
