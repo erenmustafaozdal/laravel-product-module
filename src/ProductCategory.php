@@ -116,6 +116,22 @@ class ProductCategory extends Node
         });
 
         /**
+         * model moved method
+         *
+         * @param $model
+         */
+        parent::moved(function($model)
+        {
+            // cache forget
+            \Cache::forget('home_mini_slider');
+            \Cache::forget('home_creative_slider');
+            \Cache::forget('home_wide_showcase_small_product');
+            \Cache::forget('home_narrow_showcase_small_product_1');
+            \Cache::forget('home_narrow_showcase_small_product_2');
+            \Cache::forget('home_wide_showcase_big_product');
+        });
+
+        /**
          * model deleted method
          *
          * @param $model
