@@ -90,4 +90,54 @@ class ProductBrand extends Model
     | Model Set and Get Attributes
     |--------------------------------------------------------------------------
     */
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model Events
+    |--------------------------------------------------------------------------
+    */
+
+    /**
+     * model boot method
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        /**
+         * model saved method
+         *
+         * @param $model
+         */
+        parent::saved(function($model)
+        {
+            // cache forget
+            \Cache::forget('home_mini_slider');
+            \Cache::forget('home_creative_slider');
+            \Cache::forget('home_wide_showcase_small_product');
+            \Cache::forget('home_narrow_showcase_small_product_1');
+            \Cache::forget('home_narrow_showcase_small_product_2');
+            \Cache::forget('home_wide_showcase_big_product');
+        });
+
+        /**
+         * model deleted method
+         *
+         * @param $model
+         */
+        parent::deleted(function($model)
+        {
+            // cache forget
+            \Cache::forget('home_mini_slider');
+            \Cache::forget('home_creative_slider');
+            \Cache::forget('home_wide_showcase_small_product');
+            \Cache::forget('home_narrow_showcase_small_product_1');
+            \Cache::forget('home_narrow_showcase_small_product_2');
+            \Cache::forget('home_wide_showcase_big_product');
+        });
+    }
 }
