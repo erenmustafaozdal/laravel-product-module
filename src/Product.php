@@ -448,6 +448,7 @@ class Product extends Model
                 \Cache::forget('home_wide_showcase_small_product');
                 \Cache::forget('home_narrow_showcase_small_product_1');
                 \Cache::forget('home_narrow_showcase_small_product_2');
+                \Cache::forget('home_wide_showcase_big_product');
             }
         });
 
@@ -467,6 +468,7 @@ class Product extends Model
             \Cache::forget('home_wide_showcase_small_product');
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
+            \Cache::forget('home_wide_showcase_big_product');
         });
     }
 }
