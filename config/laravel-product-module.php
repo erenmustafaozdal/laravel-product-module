@@ -66,16 +66,41 @@ return [
     */
     'routes' => [
         'admin' => [
-            'product_category'      => true,        // Is the route to be used categories admin
-            'product_brand'         => true,        // Is the route to be used brands admin
-            'product_showcase'      => true,        // Is the route to be used showcases admin
-            'product'               => true,        // Is the route to be used products admin
+            // resource
+            'product'                   => true,    // admin product resource route
+            'product_category'          => true,    // admin product category resource route
+            'product_brand'             => true,    // admin product brand resource route
+            'product_showcase'          => true,    // admin product showcase resource route
+            // others
+            'product_copy'              => true,   // admin product copy get route
+            'product_storeCopy'         => true,   // admin product store copy post route
+            'product_publish'           => true,   // admin product publish get route
+            'product_notPublish'        => true,   // admin product not publish get route
         ],
         'api' => [
-            'product_category'      => true,        // Is the route to be used categories api
-            'product_brand'         => true,        // Is the route to be used brands api
-            'product_showcase'      => true,        // Is the route to be used showcases api
-            'product'               => true,        // Is the route to be used products api
+            // resource
+            'product'                   => true,   // api product resource route
+            'product_category'          => true,   // api product category resource route
+            'product_brand'             => true,   // api product brand resource route
+            'product_showcase'          => true,   // api product showcase resource route
+            // others
+            'product_group'             => true,   // api product group post route
+            'product_detail'            => true,   // api product detail get route
+            'product_fastEdit'          => true,   // api product fast edit post route
+            'product_publish'           => true,   // api product publish post route
+            'product_notPublish'        => true,   // api product not publish post route
+            'product_removePhoto'       => true,   // api product destroy photo post route
+            'product_setMainPhoto'      => true,   // api product set main photo post route
+            'product_category_models'   => true,   // api product category model post route
+            'product_category_move'     => true,   // api product category move post route
+            'product_category_detail'   => true,   // api product category detail post route
+            'product_brand_models'      => true,   // api product brand model post route
+            'product_brand_group'       => true,   // api product brand group post route
+            'product_brand_detail'      => true,   // api product brand detail get route
+            'product_brand_fastEdit'    => true,   // api product brand fast edit post route
+            'product_showcase_group'    => true,   // api product showcase group post route
+            'product_showcase_detail'   => true,   // api product showcase detail get route
+            'product_showcase_fastEdit' => true,   // api product showcase fast edit post route
         ]
     ],
 
@@ -154,18 +179,45 @@ return [
     'product' => [
         'default_img_path'              => 'vendor/laravel-modules-core/assets/global/img/product',
         'uploads' => [
-            'path'                  => 'uploads/product',
-            'max_size'              => '5120',
-            'upload_max_file'       => 5,
-            'photo_vertical_ratio'  => 150/200,
-            'photo_horizontal_ratio'=> 200/150,
-            'photo_mimes'           => 'jpeg,jpg,jpe,png',
-            'photo_thumbnails' => [
-                'small'             => [ 'width' => 200, 'height' => 150],
-                'normal'            => [ 'width' => 800, 'height' => 600],
-                'big'               => [ 'width' => 1200, 'height' => 900],
+            // product photo options
+            'photo' => [
+                'relation'              => 'hasOne',
+                'relation_model'        => '\App\ProductPhoto',
+                'type'                  => 'image',
+                'column'                => 'mainPhoto.photo',
+                'path'                  => 'uploads/product',
+                'max_size'              => '5120',
+                'mimes'                 => 'jpeg,jpg,jpe,png',
+                'vertical_ratio'        => 150/200,
+                'horizontal_ratio'      => 200/150,
+                'thumbnails' => [
+                    'small'             => [ 'width' => 200, 'height' => 150],
+                    'normal'            => [ 'width' => 800, 'height' => 600],
+                    'big'               => [ 'width' => 1200, 'height' => 900],
+                ]
+            ],
+            // product multiple photo options
+            'multiple_photo' => [
+                'relation'              => 'hasMany',
+                'relation_model'        => '\App\ProductPhoto',
+                'type'                  => 'image',
+                'column'                => 'photos.photo',
+                'path'                  => 'uploads/product',
+                'max_size'              => '5120',
+                'max_file'              => 5,
+                'mimes'                 => 'jpeg,jpg,jpe,png',
+                'vertical_ratio'        => 150/200,
+                'horizontal_ratio'      => 200/150,
+                'thumbnails' => [
+                    'small'             => [ 'width' => 200, 'height' => 150],
+                    'normal'            => [ 'width' => 800, 'height' => 600],
+                    'big'               => [ 'width' => 1200, 'height' => 900],
+                ]
             ]
         ]
+    ],
+    'product_showcase' => [
+        'type' => [ 'first', 'first_ten', 'first_hundred', 'random', 'last', 'clear' ]
     ],
 
 
