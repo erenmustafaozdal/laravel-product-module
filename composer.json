@@ -13,11 +13,10 @@
             "ErenMustafaOzdal\\LaravelProductModule\\": "src/"
         }
     },
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
         "illuminate/support": "~5",
-        "erenmustafaozdal/laravel-modules-base": "dev-master",
+        "erenmustafaozdal/laravel-modules-base": "dev-master@dev",
         "baum/baum": "~1.1",
         "mews/purifier": "~2.0",
         "doctrine/dbal": "~2.5"
