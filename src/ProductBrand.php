@@ -122,6 +122,17 @@ class ProductBrand extends Model
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
             \Cache::forget('home_wide_showcase_big_product');
+            \Cache::forget('product_showcase');
+            \Cache::forget('product_categories');
+            \Cache::forget('product_brands');
+            \Cache::forget('product_chances');
+            \Cache::forget(implode('_',['product_brands',$model->id]));
+
+            // marka sayfalama cache temizlemesi
+            $totalPages = (int) ceil(\DB::table('products')->whereBrandId($model->id)->count()/6) + 1;
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','brand',$model->id,'page',$i]));
+            }
         });
 
         /**
@@ -138,6 +149,17 @@ class ProductBrand extends Model
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
             \Cache::forget('home_wide_showcase_big_product');
+            \Cache::forget('product_showcase');
+            \Cache::forget('product_categories');
+            \Cache::forget('product_brands');
+            \Cache::forget('product_chances');
+            \Cache::forget(implode('_',['product_brands',$model->id]));
+
+            // marka sayfalama cache temizlemesi
+            $totalPages = (int) ceil(\DB::table('products')->whereBrandId($model->id)->count()/6) + 1;
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','brand',$model->id,'page',$i]));
+            }
         });
     }
 }

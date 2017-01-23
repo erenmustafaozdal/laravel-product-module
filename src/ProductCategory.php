@@ -113,6 +113,29 @@ class ProductCategory extends Node
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
             \Cache::forget('home_wide_showcase_big_product');
+            \Cache::forget('product_showcase');
+            \Cache::forget('product_categories');
+            \Cache::forget('product_brands');
+            \Cache::forget('product_chances');
+            \Cache::forget(implode('_',['product_categories',$model->id]));
+            \Cache::forget(implode('_',['product_categories','getDescendantsAndSelf',$model->id]));
+
+            // kategori sayfalama cache temizlemesi
+            $category_id = $model->isRoot() ? $model->id : $model->getRoot()->id;
+            $categories = \DB::table('product_categories')
+                ->where('product_categories.id', $category_id)
+                ->join('product_categories as cat', function ($join) {
+                    $join->on('cat.lft', '>=', 'product_categories.lft')
+                        ->on('cat.lft', '<', 'product_categories.rgt');
+                })->get();
+            $ids = array_map(function ($item) {
+                return $item->id;
+            }, $categories);
+            $totalPages = (int) ceil(\DB::table('products')->whereIn('category_id',$ids)->count()/6) + 1;
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','category',$model->id,'page',$i]));
+                \Cache::forget(implode('_', ['products','category',$category_id,'page',$i]));
+            }
         });
 
         /**
@@ -129,6 +152,29 @@ class ProductCategory extends Node
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
             \Cache::forget('home_wide_showcase_big_product');
+            \Cache::forget('product_showcase');
+            \Cache::forget('product_categories');
+            \Cache::forget('product_brands');
+            \Cache::forget('product_chances');
+            \Cache::forget(implode('_',['product_categories',$model->id]));
+            \Cache::forget(implode('_',['product_categories','getDescendantsAndSelf',$model->id]));
+
+            // kategori sayfalama cache temizlemesi
+            $category_id = $model->isRoot() ? $model->id : $model->getRoot()->id;
+            $categories = \DB::table('product_categories')
+                ->where('product_categories.id', $category_id)
+                ->join('product_categories as cat', function ($join) {
+                    $join->on('cat.lft', '>=', 'product_categories.lft')
+                        ->on('cat.lft', '<', 'product_categories.rgt');
+                })->get();
+            $ids = array_map(function ($item) {
+                return $item->id;
+            }, $categories);
+            $totalPages = (int) ceil(\DB::table('products')->whereIn('category_id',$ids)->count()/6) + 1;
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','category',$model->id,'page',$i]));
+                \Cache::forget(implode('_', ['products','category',$category_id,'page',$i]));
+            }
         });
 
         /**
@@ -145,6 +191,29 @@ class ProductCategory extends Node
             \Cache::forget('home_narrow_showcase_small_product_1');
             \Cache::forget('home_narrow_showcase_small_product_2');
             \Cache::forget('home_wide_showcase_big_product');
+            \Cache::forget('product_showcase');
+            \Cache::forget('product_categories');
+            \Cache::forget('product_brands');
+            \Cache::forget('product_chances');
+            \Cache::forget(implode('_',['product_categories',$model->id]));
+            \Cache::forget(implode('_',['product_categories','getDescendantsAndSelf',$model->id]));
+
+            // kategori sayfalama cache temizlemesi
+            $category_id = $model->isRoot() ? $model->id : $model->getRoot()->id;
+            $categories = \DB::table('product_categories')
+                ->where('product_categories.id', $category_id)
+                ->join('product_categories as cat', function ($join) {
+                    $join->on('cat.lft', '>=', 'product_categories.lft')
+                        ->on('cat.lft', '<', 'product_categories.rgt');
+                })->get();
+            $ids = array_map(function ($item) {
+                return $item->id;
+            }, $categories);
+            $totalPages = (int) ceil(\DB::table('products')->whereIn('category_id',$ids)->count()/6) + 1;
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','category',$model->id,'page',$i]));
+                \Cache::forget(implode('_', ['products','category',$category_id,'page',$i]));
+            }
         });
     }
 }
