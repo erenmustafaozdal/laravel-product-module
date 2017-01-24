@@ -260,10 +260,47 @@ class ProductApiController extends BaseController
      */
     public function group(Request $request)
     {
+        $this->clearCache();
         if ( $this->groupAlias(Product::class) ) {
             return response()->json(['result' => 'success']);
         }
         return response()->json(['result' => 'error']);
+    }
+
+    /**
+     * clear cache
+     *
+     * @return void
+     */
+    private function clearCache()
+    {
+        \Cache::forget('home_mini_slider');
+        \Cache::forget('home_creative_slider');
+        \Cache::forget('home_wide_showcase_small_product');
+        \Cache::forget('home_narrow_showcase_small_product_1');
+        \Cache::forget('home_narrow_showcase_small_product_2');
+        \Cache::forget('home_wide_showcase_big_product');
+        \Cache::forget('product_showcase');
+        \Cache::forget('product_categories');
+        \Cache::forget('product_brands');
+        \Cache::forget('product_chances');
+        $products = collect(\DB::table('products')->select('id')->get());
+        foreach($products->keyBy('id')->keys() as $id) {
+            \Cache::forget(implode('_',['products',$id]));
+        }
+        $totalPages = (int) ceil($products->count()/6) + 1;
+        $categories = \DB::table('product_categories')->select('id')->get();
+        foreach($categories as $category) {
+            for($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products','category',$category->id,'page',$i]));
+            }
+        }
+        $brands = \DB::table('product_brands')->select('id')->get();
+        foreach($brands as $brand) {
+            for ($i = 1; $i <= $totalPages; $i++) {
+                \Cache::forget(implode('_', ['products', 'brand', $brand->id, 'page', $i]));
+            }
+        }
     }
 
 
