@@ -108,6 +108,9 @@ class ProductController extends BaseController
             'success'   => UpdateSuccess::class,
             'fail'      => UpdateFail::class
         ]);
+
+        // önce eski açıklamalar silinir
+        dd($request->all());
         $relation = [];
         if ($request->has('group-description')) {
             $this->relations['descriptions']['datas'] = collect($request->get('group-description'))->reject(function($item)
