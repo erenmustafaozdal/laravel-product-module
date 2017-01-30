@@ -110,7 +110,7 @@ class ProductController extends BaseController
         ]);
 
         // önce eski açıklamalar silinir
-        dd($request->all());
+        $product->descriptions()->delete();
         $relation = [];
         if ($request->has('group-description')) {
             $this->relations['descriptions']['datas'] = collect($request->get('group-description'))->reject(function($item)
