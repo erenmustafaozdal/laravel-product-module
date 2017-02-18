@@ -480,16 +480,14 @@ class Product extends Model
             }
         });
 
+
         /**
          * model deleted method
          *
          * @param $model
          */
-        parent::deleted(function($model)
+        parent::deleting(function($model)
         {
-            $file = new FileRepository(config('laravel-product-module.product.uploads'));
-            $file->deleteDirectories($model);
-
             // cache forget
             \Cache::forget('home_mini_slider');
             \Cache::forget('home_creative_slider');
@@ -525,6 +523,17 @@ class Product extends Model
             for($i = 1; $i <= $totalPages; $i++) {
                 \Cache::forget(implode('_', ['products','brand',$model->brand_id,'page',$i]));
             }
+        });
+
+        /**
+         * model deleted method
+         *
+         * @param $model
+         */
+        parent::deleted(function($model)
+        {
+            $file = new FileRepository(config('laravel-product-module.product.uploads'));
+            $file->deleteDirectories($model);
         });
     }
 }
