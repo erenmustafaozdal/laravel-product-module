@@ -34,8 +34,7 @@ class UpdateRequest extends BaseRequest
             $this->rules = [
                 'category_id'       => 'required',
                 'brand_id'          => 'integer',
-                'name'              => 'required|max:255',
-                'group-description' => 'array',
+                'name'              => 'required|max:255'
             ];
         }
 
